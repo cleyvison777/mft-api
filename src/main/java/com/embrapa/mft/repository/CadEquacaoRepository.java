@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.embrapa.mft.model.CadEquacao;
 
-public interface MftEquacaoRepository extends JpaRepository<CadEquacao, Long>{
+public interface CadEquacaoRepository extends JpaRepository<CadEquacao, Long>{
 
 }

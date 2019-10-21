@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.embrapa.mft.model.UsoEspecie;
 
-public interface MftUsoEspecieRepository extends JpaRepository<UsoEspecie, Long> {
+public interface CadUsoEspecieRepository extends JpaRepository<UsoEspecie, Long> {
 
 }

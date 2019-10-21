@@ -21,14 +21,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.embrapa.mft.model.CadGrupoEcologico;
-import com.embrapa.mft.repository.MftGrupoEcologicoRepository;
+import com.embrapa.mft.repository.CadGrupoEcologicoRepository;
 
 @RestController
 @RequestMapping("/d06_grupo_ecologico")
-public class MftGrupoEcologicoResource {
+public class CadGrupoEcologicoResource {
 
 	 @Autowired
-	 private MftGrupoEcologicoRepository mftGrupoEcologicoRepository;
+	 private CadGrupoEcologicoRepository mftGrupoEcologicoRepository;
 	  
 	  @GetMapping 
 	  public List<CadGrupoEcologico> ListarGrupoEcologico(){

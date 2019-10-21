@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.embrapa.mft.model.CadFamilia;
-import com.embrapa.mft.repository.MftCadFamiliaRepository;
+import com.embrapa.mft.repository.CadFamiliaRepository;
 
 
 @RestController
 @RequestMapping("/d01_familia")
-public class MftCadFamiliaResource {
+public class CadFamiliaResource {
 	@Autowired
-	private MftCadFamiliaRepository  mftCadFamliaRepository;
+	private CadFamiliaRepository  mftCadFamliaRepository;
 	
     @GetMapping
 	public List<CadFamilia> ListarFamilia(){

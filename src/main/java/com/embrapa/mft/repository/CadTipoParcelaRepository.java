@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.embrapa.mft.model.TipoParcelaMft;
 
-public interface MftTipoParcelaRepository extends JpaRepository<TipoParcelaMft, Long>{
+public interface CadTipoParcelaRepository extends JpaRepository<TipoParcelaMft, Long>{
 
 }

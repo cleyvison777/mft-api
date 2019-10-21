@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.embrapa.mft.model.CadGrupoEcologico;
 
-public interface MftGrupoEcologicoRepository extends JpaRepository<CadGrupoEcologico, Long>{
+public interface CadGrupoEcologicoRepository extends JpaRepository<CadGrupoEcologico, Long>{
 
 }

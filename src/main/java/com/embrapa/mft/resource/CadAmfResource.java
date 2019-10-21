@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.embrapa.mft.model.CadAmf;
-import com.embrapa.mft.repository.MftcadAmfRepository;
+import com.embrapa.mft.repository.CadAmfRepository;
 
 @RestController
 @RequestMapping("/d20_area")
-public class MftAmfResource {
+public class CadAmfResource {
 	 // listar_dados_na_tabela
 @Autowired	
-private MftcadAmfRepository mftcadAmfRepository;
+private CadAmfRepository mftcadAmfRepository;
  
 @GetMapping
 public List<CadAmf> ListarAmf(){

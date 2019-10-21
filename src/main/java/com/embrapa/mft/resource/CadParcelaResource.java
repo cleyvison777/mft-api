@@ -21,14 +21,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.embrapa.mft.model.ParcelaMft;
-import com.embrapa.mft.repository.MftParcelaRepository;
+import com.embrapa.mft.repository.CadParcelaRepository;
 
 @RestController
 @RequestMapping("/d21_parcela")
-public class MftParcelaResource {
+public class CadParcelaResource {
 
 	@Autowired
-	private MftParcelaRepository  mftParcelaRepository;
+	private CadParcelaRepository  mftParcelaRepository;
 	
 	@GetMapping
 	 public List<ParcelaMft> ListarParcela(){

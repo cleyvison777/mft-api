@@ -19,14 +19,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.embrapa.mft.model.TipoParcelaMft;
-import com.embrapa.mft.repository.MftTipoParcelaRepository;
+import com.embrapa.mft.repository.CadTipoParcelaRepository;
 
 @RestController
 @RequestMapping("/d22_tipo_parcela")
-public class MftTipoParcelaResource {
+public class CadTipoParcelaResource {
 
 	@Autowired
-	private MftTipoParcelaRepository mftTipoParcelaRepository;
+	private CadTipoParcelaRepository mftTipoParcelaRepository;
 	
 	@GetMapping
 	public List<TipoParcelaMft> ListarTipoParcela(){

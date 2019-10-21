@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.embrapa.mft.model.CadClasseTamanhoIndividuo;
-import com.embrapa.mft.repository.MftCadClasseTamanhoIndividuoRepository;
+import com.embrapa.mft.repository.CadClasseTamanhoIndividuoRepository;
 
 @RestController
 @RequestMapping("/d10_classe_tamanho_individuo")
-public class MftCadClasseTamanhoIndividuoResouce {
+public class CadClasseTamanhoIndividuoResouce {
 @Autowired
-private MftCadClasseTamanhoIndividuoRepository mftCadClasseTamanhoIndividuoRepository;
+private CadClasseTamanhoIndividuoRepository mftCadClasseTamanhoIndividuoRepository;
 	
 @GetMapping
 public List<CadClasseTamanhoIndividuo> ListarClasseTamanhoIndividuo(){

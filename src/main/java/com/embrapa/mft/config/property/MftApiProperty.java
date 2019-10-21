@@ -2,7 +2,7 @@ package com.embrapa.mft.config.property;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties("mft-api")
+@ConfigurationProperties("mftapi")
 public class MftApiProperty {
 	private String originPermitida = "http://localhost:4200";
 	private final Seguranca seguranca = new Seguranca();

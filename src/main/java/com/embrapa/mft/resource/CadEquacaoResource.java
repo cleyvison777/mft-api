@@ -21,13 +21,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.embrapa.mft.model.CadEquacao;
-import com.embrapa.mft.repository.MftEquacaoRepository;
+import com.embrapa.mft.repository.CadEquacaoRepository;
 
 @RestController
 @RequestMapping("/d08_equacao")
-public class MftEquacaoResource {
+public class CadEquacaoResource {
 @Autowired
- private MftEquacaoRepository mftEquacaoRepository;
+ private CadEquacaoRepository mftEquacaoRepository;
 	
  @GetMapping
    public List<CadEquacao> ListarEquacao(){

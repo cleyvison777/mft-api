@@ -21,14 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.embrapa.mft.model.SubParcelaMft;
-import com.embrapa.mft.repository.MftSubParcelaRepository;
+import com.embrapa.mft.repository.CadSubParcelaRepository;
 
 
 @RestController
 @RequestMapping("/{d29_subparcela}")
-public class MftSubParcelaResource {
+public class CadSubParcelaResource {
 	@Autowired
-	private MftSubParcelaRepository mftSubParcelaRepository;
+	private CadSubParcelaRepository mftSubParcelaRepository;
 	
 	@GetMapping
     public List<SubParcelaMft> ListarSubParcela(){

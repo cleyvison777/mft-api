@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.embrapa.mft.model.ListaEspecie;
-import com.embrapa.mft.repository.MftListaEspecieRepository;
+import com.embrapa.mft.repository.CadListaEspecieRepository;
 
 @RestController
 @RequestMapping("/d05_lista_especie")
-public class MftListaEspecieResouce {
+public class CadListaEspecieResouce {
 	@Autowired
-	private MftListaEspecieRepository mftListaEspecieRepository;
+	private CadListaEspecieRepository mftListaEspecieRepository;
 	
 	@GetMapping
 	public List<ListaEspecie> ListarEspecie(){

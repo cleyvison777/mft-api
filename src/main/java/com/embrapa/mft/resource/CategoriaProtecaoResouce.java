@@ -21,14 +21,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.embrapa.mft.model.CategoriaProtecao;
-import com.embrapa.mft.repository.MftCategoriaProtecaoRepository;
+import com.embrapa.mft.repository.CadCategoriaProtecaoRepository;
 
 @RestController
 @RequestMapping("/d09_categoria_protecao")
-public class MftCategoriaProtecaoResouce {
+public class CategoriaProtecaoResouce {
 	
 	@Autowired
-	private MftCategoriaProtecaoRepository mftCategoriaProtecaoRepository;
+	private CadCategoriaProtecaoRepository mftCategoriaProtecaoRepository;
 	
 	@GetMapping
 	public List<CategoriaProtecao> listarCategoriaProtecaos(){

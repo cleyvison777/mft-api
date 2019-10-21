@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.embrapa.mft.model.CadClasseTamanhoIndividuo;
 
-public interface MftCadClasseTamanhoIndividuoRepository extends JpaRepository<CadClasseTamanhoIndividuo, Long>{
+public interface CadClasseTamanhoIndividuoRepository extends JpaRepository<CadClasseTamanhoIndividuo, Long>{
 	
 
 }

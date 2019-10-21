@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.embrapa.mft.model.UsoEspecie;
-import com.embrapa.mft.repository.MftUsoEspecieRepository;
+import com.embrapa.mft.repository.CadUsoEspecieRepository;
 
 @RestController
 @RequestMapping("/d07_uso_especie")
-public class MftUsoEspecieResource {
+public class CadUsoEspecieResource {
 
 	@Autowired
-    private MftUsoEspecieRepository mftUsoEspecieRepository;
+    private CadUsoEspecieRepository mftUsoEspecieRepository;
 	
 	 @GetMapping
 	 public List<UsoEspecie> ListarUsoEspecie(){

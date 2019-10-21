@@ -21,14 +21,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.embrapa.mft.model.Genero;
-import com.embrapa.mft.repository.MftGeneroRepository;
+import com.embrapa.mft.repository.CadGeneroRepository;
 
 
 @RestController
 @RequestMapping("/d02_genero")
-public class MftGeneroResource {
+public class CadGeneroResource {
 	@Autowired
-	private MftGeneroRepository mftGeneroRepository;
+	private CadGeneroRepository mftGeneroRepository;
 	
 	@GetMapping
 	public List<Genero> ListarGenero(){
