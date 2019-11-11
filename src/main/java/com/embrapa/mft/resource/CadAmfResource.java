@@ -1,8 +1,10 @@
 package com.embrapa.mft.resource;
 import java.net.URI;
 import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,14 +22,18 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.embrapa.mft.model.CadAmf;
 import com.embrapa.mft.repository.CadAmfRepository;
 
+
 @RestController
-@RequestMapping("/d20_area")
+@RequestMapping("/cadarea")
 public class CadAmfResource {
-	 // listar_dados_na_tabela
+	
 @Autowired	
 private CadAmfRepository mftcadAmfRepository;
- 
+
+
+
 @GetMapping
+//listar_dados_na_tabela
 public List<CadAmf> ListarAmf(){
 	return mftcadAmfRepository.findAll();
 }
@@ -36,13 +42,13 @@ public List<CadAmf> ListarAmf(){
 @PostMapping
 public ResponseEntity<CadAmf> criar(@RequestBody CadAmf cadAmf, HttpServletResponse response){
 	CadAmf CadAmfSalvar = mftcadAmfRepository.save(cadAmf);
-	URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{d20_cdarea}")
+	URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{cadarea}")
 	.buildAndExpand(CadAmfSalvar.getCdarea()).toUri();
 	response.setHeader("Location", uri.toASCIIString());
 	return ResponseEntity.created(uri).body(CadAmfSalvar);
 }
 
-@GetMapping("/{d20_cdarea}")
+@GetMapping("/{cadarea}")
 public CadAmf CadAmf_Buscar_Pelo_Id(@PathVariable Long d20_cdarea) {
 	return mftcadAmfRepository.findOne(d20_cdarea);
 }
