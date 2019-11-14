@@ -1,14 +1,15 @@
 package com.embrapa.mft.resource;
-import java.net.URI;
-import java.util.List;
+
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.embrapa.mft.event.RecursoCriadoEvent;
 import com.embrapa.mft.model.CadAmf;
 import com.embrapa.mft.repository.CadAmfRepository;
+import com.embrapa.mft.repository.filter.CadAmfFilter;
+import com.embrapa.mft.service.CadAmfService;
 
 
 @RestController
@@ -28,45 +32,55 @@ import com.embrapa.mft.repository.CadAmfRepository;
 public class CadAmfResource {
 	
 @Autowired	
-private CadAmfRepository mftcadAmfRepository;
+private CadAmfRepository cadAmfRepository;
 
+@Autowired
+private CadAmfService cadAmfService;
+
+@Autowired
+private ApplicationEventPublisher eventPublisher;
 
 
 @GetMapping
-//listar_dados_na_tabela
-public List<CadAmf> ListarAmf(){
-	return mftcadAmfRepository.findAll();
+@PreAuthorize("hasAuthority('ROLE_PESQUISAR_AMF') and #oauth2.hasScope('read')")
+ public Page<CadAmf> pesquisar(CadAmfFilter cadAmfFilter, org.springframework.data.domain.Pageable pageable){
+	return cadAmfRepository.filtrar(cadAmfFilter, pageable);
 }
+
 
 
 @PostMapping
-public ResponseEntity<CadAmf> criar(@RequestBody CadAmf cadAmf, HttpServletResponse response){
-	CadAmf CadAmfSalvar = mftcadAmfRepository.save(cadAmf);
-	URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{cadarea}")
-	.buildAndExpand(CadAmfSalvar.getCdarea()).toUri();
-	response.setHeader("Location", uri.toASCIIString());
-	return ResponseEntity.created(uri).body(CadAmfSalvar);
+@PreAuthorize("hasAuthority('ROLE_CADASTRAR_AMF') and #oauth2.hasScope('write')")
+ public ResponseEntity<CadAmf> criar(@RequestBody CadAmf cadAmf, HttpServletResponse response){
+	CadAmf cadAmfSalva =  cadAmfRepository.save(cadAmf);
+	 eventPublisher.publishEvent(new RecursoCriadoEvent(this, response, cadAmfSalva.getCdarea()));
+	 
+	  return ResponseEntity.status(HttpStatus.CREATED).body(cadAmfSalva);
 }
 
-@GetMapping("/{cadarea}")
-public CadAmf CadAmf_Buscar_Pelo_Id(@PathVariable Long d20_cdarea) {
-	return mftcadAmfRepository.findOne(d20_cdarea);
+
+@GetMapping("/{cdarea}")
+@PreAuthorize("hasAuthority('ROLE_PESQUISAR_AMF') and #oauth2.hasScope('read')")
+ public ResponseEntity<CadAmf>CadAmf_Buscar_Pelo_Id(@PathVariable Long cdarea){
+	CadAmf cadAmf =  cadAmfRepository.findOne(cdarea);
+	 return cadAmf != null ? ResponseEntity.ok(cadAmf) : ResponseEntity.notFound().build();
+	 
 }
 
-@DeleteMapping("/{codigo}")
-@ResponseStatus(HttpStatus.NO_CONTENT)
-public void Remover(@PathVariable Long codigo) {
-	mftcadAmfRepository.delete(codigo);
-	
-       }
-
-  @PutMapping("/{codigo}")
-  public ResponseEntity<CadAmf> atualizar(@PathVariable Long codigo, @Valid @RequestBody CadAmf cadAmf){
-	  CadAmf cadAmfSalva = mftcadAmfRepository.findOne(codigo);
-	   BeanUtils.copyProperties(cadAmf, cadAmfSalva, "codigo");
-	    mftcadAmfRepository.save(cadAmfSalva);
-	     return ResponseEntity.ok(cadAmfSalva);
+  @DeleteMapping("/{cdarea}")
+  @PreAuthorize("hasAuthority('ROLE_REMOVER_AMF') and #oauth2.hasScope('write')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+      public void remover(@PathVariable Long cdarea) {
+	  cadAmfRepository.delete(cdarea);
   }
+  
+   @PutMapping("/{cdarea}")
+   @PreAuthorize("hasAuthority('ROLE_CADASTRAR_EMPRESA') and #oauth2.hasScope('write')")
+   public ResponseEntity<CadAmf> atualizar(@PathVariable Long cdarea, @Valid @RequestBody CadAmf cadAmf){
+	   CadAmf cadAmfSalva = cadAmfService.atualizar(cdarea, cadAmf);
+	     return ResponseEntity.ok(cadAmfSalva);
+   }
+  
  
 
 }

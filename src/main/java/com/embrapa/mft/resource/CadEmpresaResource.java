@@ -62,7 +62,7 @@ public class CadEmpresaResource {
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_EMPRESA') and #oauth2.hasScope('read')")
 	public ResponseEntity <CadEmpresa>buscarPeloCodigo(@PathVariable Long cdEmpresa) {
 		CadEmpresa cadEmpresa = cadEmpresaRepository.findOne(cdEmpresa);
-		return cadEmpresa != null ? ResponseEntity.ok(cadEmpresa) : ResponseEntity.notFound().build();
+		 return cadEmpresa != null ? ResponseEntity.ok(cadEmpresa) : ResponseEntity.notFound().build();
 		
 	}
 	
