@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -41,13 +42,10 @@ private CadAmfService cadAmfService;
 private ApplicationEventPublisher eventPublisher;
 
 
-@GetMapping
-@PreAuthorize("hasAuthority('ROLE_PESQUISAR_AMF') and #oauth2.hasScope('read')")
- public Page<CadAmf> pesquisar(CadAmfFilter cadAmfFilter, org.springframework.data.domain.Pageable pageable){
-	return cadAmfRepository.filtrar(cadAmfFilter, pageable);
-}
-
-
+//@PreAuthorize("hasAuthority('ROLE_PESQUISAR_EMPRESA') and #oauth2.hasScope('read')")
+//public Page<CadAmf> pesquisar(CadAmfFilter cadAmfFilter, Pageable pageable){
+	//return cadAmfRepository.filtrar(cadAmfFilter, pageable);
+//}
 
 @PostMapping
 @PreAuthorize("hasAuthority('ROLE_CADASTRAR_AMF') and #oauth2.hasScope('write')")

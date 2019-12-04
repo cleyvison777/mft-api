@@ -37,7 +37,6 @@ public class CadEmpresaResource {
 	private CadEmpresaService cadEmpresaService;
 	
 	
-	
 	@Autowired
 	private ApplicationEventPublisher publisher;
 	

@@ -4,11 +4,14 @@ import java.net.URI;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,44 +22,66 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import com.embrapa.mft.model.ListaEspecie;
+
+import com.embrapa.mft.event.RecursoCriadoEvent;
+import com.embrapa.mft.model.CadListaEspecie;
 import com.embrapa.mft.repository.CadListaEspecieRepository;
+import com.embrapa.mft.repository.filter.CadListaEspecieFilter;
+import com.embrapa.mft.service.CadListaEspecieService;
 
 @RestController
 @RequestMapping("/d05_lista_especie")
+
 public class CadListaEspecieResouce {
+	
 	@Autowired
-	private CadListaEspecieRepository mftListaEspecieRepository;
+	private CadListaEspecieRepository cadListaEspecieRepository;
+	
+	@Autowired
+	private CadListaEspecieService cadlistaEspecieService;
+	
+	
+	@Autowired
+	 private ApplicationEventPublisher publisher;
 	
 	@GetMapping
-	public List<ListaEspecie> ListarEspecie(){
-		return mftListaEspecieRepository.findAll();
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_EMPRESA') and #oauth2.hasScope('read')")
+     public Page<CadListaEspecie> pesquisar(CadListaEspecieFilter especieFilter, Pageable pageable){
+		return cadListaEspecieRepository.filtrarEspecie(especieFilter, pageable);
 	}
 	
+	
 	@PostMapping
-	 public ResponseEntity<ListaEspecie> criar(@RequestBody ListaEspecie listaEspecie, HttpServletResponse response){
-		ListaEspecie listaEspecieSalva = mftListaEspecieRepository.save(listaEspecie);
-		 URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{d05_lista_especie}")
-				 .buildAndExpand(listaEspecieSalva.getCdListaEsp()).toUri();
-		          response.setHeader("Location", uri.toASCIIString());
-		            return ResponseEntity.created(uri).body(listaEspecieSalva);
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_ESPECIE') and #oauth2.hasScope('write')")
+	 public ResponseEntity<CadListaEspecie> criar(@RequestBody CadListaEspecie listaEspecie, HttpServletResponse response){
+		CadListaEspecie listaEspecieSalva = cadListaEspecieRepository.save(listaEspecie);
+		   publisher.publishEvent(new RecursoCriadoEvent(this, response, listaEspecieSalva.getCdListaEsp()));
+		            return ResponseEntity.status(HttpStatus.CREATED).body(listaEspecieSalva);
 	}
 
 	@GetMapping("/{d05_lista_especie}")
-	public ListaEspecie ListaEspecie_Buscar_Pelo_Id(@PathVariable Long d05_lista_especie) {
-		return mftListaEspecieRepository.findOne(d05_lista_especie);
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_ESPECIE') and #oauth2.hasScope('read')")
+	public ResponseEntity<CadListaEspecie> ListaEspecie_Buscar_Pelo_Id(@PathVariable Long d05_lista_especie) {
+		CadListaEspecie listaEspecie = cadListaEspecieRepository.findOne(d05_lista_especie);
+		 return listaEspecie != null ? ResponseEntity.ok(listaEspecie) : ResponseEntity.notFound().build();
 	}
+	
 	@DeleteMapping("/{codigo}")
+	@PreAuthorize("hasAuthority('ROLE_REMOVER_ESPECIE') and #oauth2.hasScope('write')")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	 public void Remover(@PathVariable Long codigo) {
-		mftListaEspecieRepository.delete(codigo);
+		cadListaEspecieRepository.delete(codigo);
 	}
+	
+	
 	@PutMapping("/{codigo}")
-	public ResponseEntity<ListaEspecie> atualizar(@PathVariable Long codigo, @Valid @RequestBody ListaEspecie listaEspecie){
-		ListaEspecie listaEspecieSalva = mftListaEspecieRepository.findOne(codigo);
-		 BeanUtils.copyProperties(listaEspecie, listaEspecieSalva, "Codigo");
-		  mftListaEspecieRepository.save(listaEspecieSalva);
+	@PreAuthorize("hasAuthority('ROLE_ATUALIZAR_ESPECIE') and #oauth2.hasScope('write')")
+	public ResponseEntity<CadListaEspecie> atualizar(@PathVariable Long codigo, @Valid @RequestBody CadListaEspecie listaEspecie){
+		 CadListaEspecie listaEspecieSalva = cadlistaEspecieService.atualizar(codigo, listaEspecie);
 		   return ResponseEntity.ok(listaEspecieSalva);
 		   
 	}
+	
+	
+	
 }

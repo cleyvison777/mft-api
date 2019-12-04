@@ -10,11 +10,6 @@ public class CadAmfFilter {
 
 	public void setNmArea(String nmArea) {
 		this.nmArea = nmArea;
-		
 	}
-	
-	
-	
-	
 	
 }

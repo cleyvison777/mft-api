@@ -11,14 +11,16 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "d05_lista_especie")
-public class ListaEspecie {
+public class CadListaEspecie {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "d05_cdlistaesp")
 	private long cdListaEsp;
+	
 	@ManyToOne
 	@JoinColumn(name ="d05_cdempresa")
 	private CadEmpresa cdEmpresa; 
+	
 	@Column(name = "d05_nmlistaesp")
 	private String nmListaEsp;
 	
@@ -56,7 +58,7 @@ public class ListaEspecie {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		ListaEspecie other = (ListaEspecie) obj;
+		CadListaEspecie other = (CadListaEspecie) obj;
 		if (cdListaEsp != other.cdListaEsp)
 			return false;
 		return true;

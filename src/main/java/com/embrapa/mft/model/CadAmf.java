@@ -18,6 +18,21 @@ public class CadAmf {
 	@Column(name = "d20_cdarea")
 	private long cdarea;
 	
+	@ManyToOne
+	@JoinColumn (name = "d20_cdlistaesp")
+	private CadListaEspecie cdListaEsp; 
+	
+	@ManyToOne
+	@JoinColumn(name ="d20_cdempresa")
+	private CadEmpresa cdEmpresa;
+	
+	@Column (name = "d20_cdequacaoareabasalpadrao")
+	private long cdEquacaoAreaBasalPadrao;
+	
+	@Column (name = "d20_cdequacaovolumeinvtemp") 
+	private long cdEquacaovolumeinvtemp;
+    
+
 	@Column (name = "d20_nmarea")
 	private String nmArea;
 	
@@ -28,49 +43,49 @@ public class CadAmf {
 	private String nmMunicipio;
 	
 	@Column (name = "d20_latitude1grau")
-	private double latitude1Grau; 
+	private Integer latitude1Grau; 
 	
 	@Column (name = "d20_latitude1minuto")
-	private double latitude1Minuto; 
+	private Integer latitude1Minuto; 
 	
 	@Column (name = "d20_latitude1orientacao")
-	private char latitude1Orientacao; 
+	private String latitude1Orientacao; 
 	
 	@Column (name = "d20_latitude2grau")
-	private double latitude2Grau; 
+	private Integer latitude2Grau; 
 	
 	@Column (name = "d20_latitude2minuto")
-	private double latitude2Minuto; 
+	private Integer latitude2Minuto; 
 	
 	@Column (name = "d20_latitude2orientacao")
-	private char latitude2Orientacao;
+	private String latitude2Orientacao;
 	
 	@Column (name = "d20_longitude1grau")
-	private double longitude1Grau; 
+	private Integer longitude1Grau; 
 	
 	@Column (name = "d20_longitude1minuto")
-	private double longitude1Minuto; 
+	private Integer longitude1Minuto; 
 	
 	@Column (name = "d20_longitude1orientacao")
-	private char longitude1Orientacao; 
+	private String longitude1Orientacao; 
 	
 	@Column (name = "d20_longitude2grau") 
-	private double longitude2Grau; 
+	private Integer longitude2Grau; 
 	
 	@Column (name = "d20_longitude2minuto")
-	private double longitude2Minuto; 
+	private Integer longitude2Minuto; 
 	
 	@Column (name = "d20_longitude2orientacao")
-	private char longitude2Orientacao; 
+	private String longitude2Orientacao; 
 	
 	@Column (name = "d20_precipmediaanualmm")
-	private double precipMediaAnualmm; 
+	private Integer precipMediaAnualmm; 
 	
 	@Column (name = "d20_precipmediamensalchuvamm")
-	private double precipMediaMensalChuvamm; 
+	private Integer precipMediaMensalChuvamm; 
 	
 	@Column (name = "d20_precipmediamensalsecamm")
-	private double precipMediaMensalSecamm;
+	private Integer precipMediaMensalSecamm;
 	
 	@Column (name = "d20_mesesseca")
 	private String mesesSeca; 
@@ -105,31 +120,51 @@ public class CadAmf {
 	@Column (name = "d20_txobservacaoarea")
 	private String txObservacaoArea; 
 	
-	@Column (name = "d20_cdlistaesp")
-	private double cdListaEsp; 
 	
 	@Column (name = "d20_lgmudacontada")
-	private double lgMudaContada; 
+	private Integer lgMudaContada; 
 	
 	@Column (name = "d20_lgpalmeiracontada")
-	private double lgPalmeiraContada; 
+	private Integer lgPalmeiraContada; 
 	
-	@Column (name = "d20_cdequacaoareabasalpadrao")
-	private double cdEquacaoAreaBasalPadrao;
-	
-	@Column (name = "d20_cdequacaovolumeinvtemp") 
-	private double cdEquacaovolumeinvtemp;
-    
-	@ManyToOne
-	@JoinColumn(name ="d20_cdempresa")
-	private CadEmpresa cdEmpresa;
-
 	public long getCdarea() {
 		return cdarea;
 	}
 
 	public void setCdarea(long cdarea) {
 		this.cdarea = cdarea;
+	}
+
+	public CadListaEspecie getCdListaEsp() {
+		return cdListaEsp;
+	}
+
+	public void setCdListaEsp(CadListaEspecie cdListaEsp) {
+		this.cdListaEsp = cdListaEsp;
+	}
+
+	public CadEmpresa getCdEmpresa() {
+		return cdEmpresa;
+	}
+
+	public void setCdEmpresa(CadEmpresa cdEmpresa) {
+		this.cdEmpresa = cdEmpresa;
+	}
+
+	public long getCdEquacaoAreaBasalPadrao() {
+		return cdEquacaoAreaBasalPadrao;
+	}
+
+	public void setCdEquacaoAreaBasalPadrao(long cdEquacaoAreaBasalPadrao) {
+		this.cdEquacaoAreaBasalPadrao = cdEquacaoAreaBasalPadrao;
+	}
+
+	public long getCdEquacaovolumeinvtemp() {
+		return cdEquacaovolumeinvtemp;
+	}
+
+	public void setCdEquacaovolumeinvtemp(long cdEquacaovolumeinvtemp) {
+		this.cdEquacaovolumeinvtemp = cdEquacaovolumeinvtemp;
 	}
 
 	public String getNmArea() {
@@ -156,123 +191,123 @@ public class CadAmf {
 		this.nmMunicipio = nmMunicipio;
 	}
 
-	public double getLatitude1Grau() {
+	public Integer getLatitude1Grau() {
 		return latitude1Grau;
 	}
 
-	public void setLatitude1Grau(double latitude1Grau) {
+	public void setLatitude1Grau(Integer latitude1Grau) {
 		this.latitude1Grau = latitude1Grau;
 	}
 
-	public double getLatitude1Minuto() {
+	public Integer getLatitude1Minuto() {
 		return latitude1Minuto;
 	}
 
-	public void setLatitude1Minuto(double latitude1Minuto) {
+	public void setLatitude1Minuto(Integer latitude1Minuto) {
 		this.latitude1Minuto = latitude1Minuto;
 	}
 
-	public char getLatitude1Orientacao() {
+	public String getLatitude1Orientacao() {
 		return latitude1Orientacao;
 	}
 
-	public void setLatitude1Orientacao(char latitude1Orientacao) {
+	public void setLatitude1Orientacao(String latitude1Orientacao) {
 		this.latitude1Orientacao = latitude1Orientacao;
 	}
 
-	public double getLatitude2Grau() {
+	public Integer getLatitude2Grau() {
 		return latitude2Grau;
 	}
 
-	public void setLatitude2Grau(double latitude2Grau) {
+	public void setLatitude2Grau(Integer latitude2Grau) {
 		this.latitude2Grau = latitude2Grau;
 	}
 
-	public double getLatitude2Minuto() {
+	public Integer getLatitude2Minuto() {
 		return latitude2Minuto;
 	}
 
-	public void setLatitude2Minuto(double latitude2Minuto) {
+	public void setLatitude2Minuto(Integer latitude2Minuto) {
 		this.latitude2Minuto = latitude2Minuto;
 	}
 
-	public char getLatitude2Orientacao() {
+	public String getLatitude2Orientacao() {
 		return latitude2Orientacao;
 	}
 
-	public void setLatitude2Orientacao(char latitude2Orientacao) {
+	public void setLatitude2Orientacao(String latitude2Orientacao) {
 		this.latitude2Orientacao = latitude2Orientacao;
 	}
 
-	public double getLongitude1Grau() {
+	public Integer getLongitude1Grau() {
 		return longitude1Grau;
 	}
 
-	public void setLongitude1Grau(double longitude1Grau) {
+	public void setLongitude1Grau(Integer longitude1Grau) {
 		this.longitude1Grau = longitude1Grau;
 	}
 
-	public double getLongitude1Minuto() {
+	public Integer getLongitude1Minuto() {
 		return longitude1Minuto;
 	}
 
-	public void setLongitude1Minuto(double longitude1Minuto) {
+	public void setLongitude1Minuto(Integer longitude1Minuto) {
 		this.longitude1Minuto = longitude1Minuto;
 	}
 
-	public char getLongitude1Orientacao() {
+	public String getLongitude1Orientacao() {
 		return longitude1Orientacao;
 	}
 
-	public void setLongitude1Orientacao(char longitude1Orientacao) {
+	public void setLongitude1Orientacao(String longitude1Orientacao) {
 		this.longitude1Orientacao = longitude1Orientacao;
 	}
 
-	public double getLongitude2Grau() {
+	public Integer getLongitude2Grau() {
 		return longitude2Grau;
 	}
 
-	public void setLongitude2Grau(double longitude2Grau) {
+	public void setLongitude2Grau(Integer longitude2Grau) {
 		this.longitude2Grau = longitude2Grau;
 	}
 
-	public double getLongitude2Minuto() {
+	public Integer getLongitude2Minuto() {
 		return longitude2Minuto;
 	}
 
-	public void setLongitude2Minuto(double longitude2Minuto) {
+	public void setLongitude2Minuto(Integer longitude2Minuto) {
 		this.longitude2Minuto = longitude2Minuto;
 	}
 
-	public char getLongitude2Orientacao() {
+	public String getLongitude2Orientacao() {
 		return longitude2Orientacao;
 	}
 
-	public void setLongitude2Orientacao(char longitude2Orientacao) {
+	public void setLongitude2Orientacao(String longitude2Orientacao) {
 		this.longitude2Orientacao = longitude2Orientacao;
 	}
 
-	public double getPrecipMediaAnualmm() {
+	public Integer getPrecipMediaAnualmm() {
 		return precipMediaAnualmm;
 	}
 
-	public void setPrecipMediaAnualmm(double precipMediaAnualmm) {
+	public void setPrecipMediaAnualmm(Integer precipMediaAnualmm) {
 		this.precipMediaAnualmm = precipMediaAnualmm;
 	}
 
-	public double getPrecipMediaMensalChuvamm() {
+	public Integer getPrecipMediaMensalChuvamm() {
 		return precipMediaMensalChuvamm;
 	}
 
-	public void setPrecipMediaMensalChuvamm(double precipMediaMensalChuvamm) {
+	public void setPrecipMediaMensalChuvamm(Integer precipMediaMensalChuvamm) {
 		this.precipMediaMensalChuvamm = precipMediaMensalChuvamm;
 	}
 
-	public double getPrecipMediaMensalSecamm() {
+	public Integer getPrecipMediaMensalSecamm() {
 		return precipMediaMensalSecamm;
 	}
 
-	public void setPrecipMediaMensalSecamm(double precipMediaMensalSecamm) {
+	public void setPrecipMediaMensalSecamm(Integer precipMediaMensalSecamm) {
 		this.precipMediaMensalSecamm = precipMediaMensalSecamm;
 	}
 
@@ -316,12 +351,12 @@ public class CadAmf {
 		Relevo = relevo;
 	}
 
-	public String getNmResponsavel() {
+	public String getMnResponsavel() {
 		return mnResponsavel;
 	}
 
-	public void setNmResponsavel(String nmResonsavel) {
-		this.mnResponsavel = nmResonsavel;
+	public void setMnResponsavel(String mnResponsavel) {
+		this.mnResponsavel = mnResponsavel;
 	}
 
 	public String getEnderecoResponsavel() {
@@ -364,52 +399,20 @@ public class CadAmf {
 		this.txObservacaoArea = txObservacaoArea;
 	}
 
-	public double getCdListaEsp() {
-		return cdListaEsp;
-	}
-
-	public void setCdListaEsp(double cdListaEsp) {
-		this.cdListaEsp = cdListaEsp;
-	}
-
-	public double getLgMudaContada() {
+	public Integer getLgMudaContada() {
 		return lgMudaContada;
 	}
 
-	public void setLgMudaContada(double lgMudaContada) {
+	public void setLgMudaContada(Integer lgMudaContada) {
 		this.lgMudaContada = lgMudaContada;
 	}
 
-	public double getLgPalmeiraContada() {
+	public Integer getLgPalmeiraContada() {
 		return lgPalmeiraContada;
 	}
 
-	public void setLgPalmeiraContada(double lgPalmeiraContada) {
+	public void setLgPalmeiraContada(Integer lgPalmeiraContada) {
 		this.lgPalmeiraContada = lgPalmeiraContada;
-	}
-
-	public double getCdEquacaoAreaBasalPadrao() {
-		return cdEquacaoAreaBasalPadrao;
-	}
-
-	public void setCdEquacaoAreaBasalPadrao(double cdEquacaoAreaBasalPadrao) {
-		this.cdEquacaoAreaBasalPadrao = cdEquacaoAreaBasalPadrao;
-	}
-
-	public double getCdEquacaovolumeinvtemp() {
-		return cdEquacaovolumeinvtemp;
-	}
-
-	public void setCdEquacaoVolumeInvTemp(double cdEquacaoVolumeInvTemp) {
-		this.cdEquacaovolumeinvtemp = cdEquacaoVolumeInvTemp;
-	}
-
-	public CadEmpresa getCdEmpresa() {
-		return cdEmpresa;
-	}
-
-	public void setCdEmpresa(CadEmpresa cdEmpresa) {
-		this.cdEmpresa = cdEmpresa;
 	}
 
 	@Override
