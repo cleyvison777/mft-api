@@ -14,40 +14,41 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 import com.embrapa.mft.model.CadListaEspecie;
-import com.embrapa.mft.model.ListaEspecie_;
+import com.embrapa.mft.model.CadListaEspecie_;
 import com.embrapa.mft.repository.filter.CadListaEspecieFilter;
 
 public class CadListaEspecieRepositorylmpl implements CadListaEspecieRepositoryQuery {
+	
  @PersistenceContext
   private EntityManager manager;
 	
 	@Override
-	public Page<CadListaEspecie> filtrarEspecie(CadListaEspecieFilter especieFilter, Pageable pageable) {
+	public Page<CadListaEspecie> filtrar(CadListaEspecieFilter filtrar, Pageable pageable) {
 		CriteriaBuilder builder =  manager.getCriteriaBuilder();
 		 CriteriaQuery<CadListaEspecie> criteria = builder .createQuery(CadListaEspecie.class);
 		   Root<CadListaEspecie> root = criteria.from(CadListaEspecie.class);
 		   
-		    Predicate[] predicates = criarRestricoes(especieFilter, builder, root);
+		    Predicate[] predicates = criarRestricoes(filtrar, builder, root);
 		     criteria.where(predicates);
 		     
 		       TypedQuery<CadListaEspecie> query = manager.createQuery(criteria);
 		        adicionarRestricoesDePaginacao(query, pageable);
 		       
-		         return new PageImpl<>(query.getResultList(), pageable, total(especieFilter));
+		         return new PageImpl<>(query.getResultList(), pageable, total(filtrar));
 	}
 
 	
-	private Long total(CadListaEspecieFilter especieFilter) {
-		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
-		Root<CadListaEspecie> root = criteria.from(CadListaEspecie.class);
-		
-		Predicate[] predicates = criarRestricoes(especieFilter, builder, root);
-		criteria.where(predicates);
-		
-		criteria.select(builder.count(root));
-		return manager.createQuery(criteria).getSingleResult();
-	}
+			private Long total(CadListaEspecieFilter especieFilter) {
+				CriteriaBuilder builder = manager.getCriteriaBuilder();
+				CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+				Root<CadListaEspecie> root = criteria.from(CadListaEspecie.class);
+				
+				Predicate[] predicates = criarRestricoes(especieFilter, builder, root);
+				criteria.where(predicates);
+				
+				criteria.select(builder.count(root));
+				return manager.createQuery(criteria).getSingleResult();
+			}
 	
 	
 	private void adicionarRestricoesDePaginacao(TypedQuery<?> query, Pageable pageable) {
@@ -66,7 +67,7 @@ public class CadListaEspecieRepositorylmpl implements CadListaEspecieRepositoryQ
 		  List<Predicate> predicate = new ArrayList<>();
 		  if(!StringUtils.isEmpty(especieFilter.getNmListaEsp())) {
 			  predicate.add(builder.like(
-					  builder.lower(root.get(ListaEspecie_.nmListaEsp)), "%" + especieFilter.getNmListaEsp().toLowerCase()+ "%"));
+					  builder.lower(root.get(CadListaEspecie_.nmListaEsp)), "%" + especieFilter.getNmListaEsp().toLowerCase()+ "%"));
 		  }
 		  
 		  return predicate.toArray(new Predicate[predicate.size()]);

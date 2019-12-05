@@ -47,7 +47,7 @@ public class CadListaEspecieResouce {
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_EMPRESA') and #oauth2.hasScope('read')")
      public Page<CadListaEspecie> pesquisar(CadListaEspecieFilter especieFilter, Pageable pageable){
-		return cadListaEspecieRepository.filtrarEspecie(especieFilter, pageable);
+		return cadListaEspecieRepository.filtrar(especieFilter, pageable);
 	}
 	
 	
