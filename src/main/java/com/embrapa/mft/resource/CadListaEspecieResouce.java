@@ -30,7 +30,7 @@ import com.embrapa.mft.repository.filter.CadListaEspecieFilter;
 import com.embrapa.mft.service.CadListaEspecieService;
 
 @RestController
-@RequestMapping("/d05_lista_especie")
+@RequestMapping("/cadlistaespecie")
 
 public class CadListaEspecieResouce {
 	
@@ -44,11 +44,14 @@ public class CadListaEspecieResouce {
 	@Autowired
 	 private ApplicationEventPublisher publisher;
 	
-	@GetMapping
-	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_EMPRESA') and #oauth2.hasScope('read')")
-     public Page<CadListaEspecie> pesquisar(CadListaEspecieFilter especieFilter, Pageable pageable){
-		return cadListaEspecieRepository.filtrar(especieFilter, pageable);
-	}
+	/*
+	 * @GetMapping
+	 * 
+	 * @PreAuthorize("hasAuthority('ROLE_PESQUISAR_ESPECIE') and #oauth2.hasScope('read')"
+	 * ) public Page<CadListaEspecie> pesquisar(CadListaEspecieFilter
+	 * listaEspecieFilter, Pageable pageable){ return
+	 * cadListaEspecieRepository.filtrar(listaEspecieFilter, pageable); }
+	 */
 	
 	
 	@PostMapping
@@ -66,18 +69,18 @@ public class CadListaEspecieResouce {
 		 return listaEspecie != null ? ResponseEntity.ok(listaEspecie) : ResponseEntity.notFound().build();
 	}
 	
-	@DeleteMapping("/{codigo}")
+	@DeleteMapping("/{cadListaEspecie}")
 	@PreAuthorize("hasAuthority('ROLE_REMOVER_ESPECIE') and #oauth2.hasScope('write')")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	 public void Remover(@PathVariable Long codigo) {
-		cadListaEspecieRepository.delete(codigo);
+	 public void Remover(@PathVariable Long cadListaEspecie) {
+		cadListaEspecieRepository.delete(cadListaEspecie);
 	}
 	
 	
-	@PutMapping("/{codigo}")
+	@PutMapping("/{cadListaEspecie}")
 	@PreAuthorize("hasAuthority('ROLE_ATUALIZAR_ESPECIE') and #oauth2.hasScope('write')")
-	public ResponseEntity<CadListaEspecie> atualizar(@PathVariable Long codigo, @Valid @RequestBody CadListaEspecie listaEspecie){
-		 CadListaEspecie listaEspecieSalva = cadlistaEspecieService.atualizar(codigo, listaEspecie);
+	public ResponseEntity<CadListaEspecie> atualizar(@PathVariable Long cadListaEspecie, @Valid @RequestBody CadListaEspecie listaEspecie){
+		 CadListaEspecie listaEspecieSalva = cadlistaEspecieService.atualizar(cadListaEspecie, listaEspecie);
 		   return ResponseEntity.ok(listaEspecieSalva);
 		   
 	}

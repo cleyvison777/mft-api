@@ -8,3 +8,4 @@ import com.embrapa.mft.repository.consultas.CadListaEspecieRepositoryQuery;
 public interface CadListaEspecieRepository extends JpaRepository<CadListaEspecie, Long>, CadListaEspecieRepositoryQuery {
 
 }
+ 

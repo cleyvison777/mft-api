@@ -8,5 +8,5 @@ import com.embrapa.mft.repository.filter.CadListaEspecieFilter;
 
 public interface CadListaEspecieRepositoryQuery {
 
-	public Page<CadListaEspecie> filtrar(CadListaEspecieFilter especieFilter, Pageable pageable);
+	public Page<CadListaEspecie> filtrar(CadListaEspecieFilter cadListaEspecieFilter, Pageable pageable);
 }

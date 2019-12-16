@@ -9,7 +9,7 @@ import com.embrapa.mft.model.CadListaEspecie;
 import com.embrapa.mft.repository.CadListaEspecieRepository;
 
 @Service
-public class CadListaEspecieService {
+public class CadListaEspecieService{
  
 	 @Autowired
 	  private CadListaEspecieRepository cadListaEspecieRepository;
