@@ -20,26 +20,27 @@ import com.embrapa.mft.model.CadAmf;
 import com.embrapa.mft.model.CadAmf_;
 import com.embrapa.mft.repository.filter.CadAmfFilter;
 
-public class CadAmfRepositorylmpl implements CadAmfRepositoryQuery {
-	
+public class CadAmfRepositoryImpl implements CadAmfRepositoryQuery {
+
 	@PersistenceContext
 	private EntityManager manager;
 	
 	@Override
-	public Page<CadAmf> filtrar(CadAmfFilter cadAmfFilter, Pageable pageable) {
+	public Page<CadAmf> filtrar(CadAmfFilter cadEmpresaFilter, Pageable pageable) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<CadAmf> criteria = builder .createQuery(CadAmf.class);
 		Root<CadAmf> root = criteria.from(CadAmf.class);
 		
-		Predicate[] predicates = criarRestricoes(cadAmfFilter, builder, root);
+		Predicate[] predicates = criarRestricoes(cadEmpresaFilter, builder, root);
 		criteria.where(predicates);
 		
 		TypedQuery<CadAmf> query = manager.createQuery(criteria);
 		adiconarRestricoesDePaginacao(query, pageable);
 		
-		return new PageImpl<>(query.getResultList(), pageable, total(cadAmfFilter));
+		return new PageImpl<>(query.getResultList(), pageable, total(cadEmpresaFilter));
 	}
-
+	
+	
 	private Long total(CadAmfFilter cadAmfFilter) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
@@ -51,7 +52,7 @@ public class CadAmfRepositorylmpl implements CadAmfRepositoryQuery {
 		criteria.select(builder.count(root));
 		return manager.createQuery(criteria).getSingleResult();
 	}
-
+	
 	private void adiconarRestricoesDePaginacao(TypedQuery<?> query, Pageable pageable) {
 		int paginaAtual = pageable.getPageNumber();
 		int totalDeRegistrosPorPagina = pageable.getPageSize();
@@ -61,7 +62,7 @@ public class CadAmfRepositorylmpl implements CadAmfRepositoryQuery {
 		query.setMaxResults(totalDeRegistrosPorPagina);
 		
 	}
-
+	
 	private Predicate[] criarRestricoes(CadAmfFilter cadAmfFilter, CriteriaBuilder builder,
 			Root<CadAmf> root) {
 		
@@ -73,6 +74,5 @@ public class CadAmfRepositorylmpl implements CadAmfRepositoryQuery {
 		
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}
-
 
 }

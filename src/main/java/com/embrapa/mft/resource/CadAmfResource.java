@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.embrapa.mft.event.RecursoCriadoEvent;
 import com.embrapa.mft.model.CadAmf;
 import com.embrapa.mft.repository.CadAmfRepository;
-import com.embrapa.mft.repository.filter.CadAmfFilter;
 import com.embrapa.mft.service.CadAmfService;
 
 

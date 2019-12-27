@@ -1,7 +1,7 @@
 package com.embrapa.mft.repository.filter;
 
 public class CadAmfFilter {
-
+	
 	private String nmArea;
 
 	public String getNmArea() {
@@ -12,4 +12,6 @@ public class CadAmfFilter {
 		this.nmArea = nmArea;
 	}
 	
+	
+
 }
