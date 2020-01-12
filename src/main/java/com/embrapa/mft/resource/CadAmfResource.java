@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.embrapa.mft.event.RecursoCriadoEvent;
 import com.embrapa.mft.model.CadAmf;
 import com.embrapa.mft.repository.CadAmfRepository;
+import com.embrapa.mft.repository.filter.CadAmfFilter;
 import com.embrapa.mft.service.CadAmfService;
 
 
@@ -41,10 +42,10 @@ private CadAmfService cadAmfService;
 private ApplicationEventPublisher eventPublisher;
 
 
-//@PreAuthorize("hasAuthority('ROLE_PESQUISAR_EMPRESA') and #oauth2.hasScope('read')")
-//public Page<CadAmf> pesquisar(CadAmfFilter cadAmfFilter, Pageable pageable){
-	//return cadAmfRepository.filtrar(cadAmfFilter, pageable);
-//}
+@PreAuthorize("hasAuthority('ROLE_PESQUISAR_AMF') and #oauth2.hasScope('read')")
+public Page<CadAmf> pesquisar(CadAmfFilter cadAmfFilter, Pageable pageable){
+	return cadAmfRepository.filtrar(cadAmfFilter, pageable);
+}
 
 @PostMapping
 @PreAuthorize("hasAuthority('ROLE_CADASTRAR_AMF') and #oauth2.hasScope('write')")

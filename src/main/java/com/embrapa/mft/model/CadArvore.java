@@ -66,7 +66,7 @@ public class CadArvore {
 	private long cdTratamento;
 	
 	@Column(name = "p23_nrindividuo")
-	private long nrIndividuo;
+	private Integer nrIndividuo;
 	
 	@Column(name = "p23_nrfuste")
      private Integer nrFuste;
@@ -84,10 +84,10 @@ public class CadArvore {
 	private Integer lgMudanCapdm;
 
 	@Column(name = "p23_volumetmp")
-    private double volumeTmp;
+    private double  volumeTmp;
 	
 	@Column(name = "p23_areabasaltmp")
-	private double  areaBasalTmp;
+	private double   areaBasalTmp;
 
 	public long getCdArvore() {
 		return cdArvore;
@@ -209,11 +209,11 @@ public class CadArvore {
 		this.cdTratamento = cdTratamento;
 	}
 
-	public long getNrIndividuo() {
+	public Integer getNrIndividuo() {
 		return nrIndividuo;
 	}
 
-	public void setNrIndividuo(long nrIndividuo) {
+	public void setNrIndividuo(Integer nrIndividuo) {
 		this.nrIndividuo = nrIndividuo;
 	}
 
@@ -257,19 +257,19 @@ public class CadArvore {
 		this.lgMudanCapdm = lgMudanCapdm;
 	}
 
-	public Double getVolumeTmp() {
+	public double getVolumeTmp() {
 		return volumeTmp;
 	}
 
-	public void setVolumeTmp(Double volumeTmp) {
+	public void setVolumeTmp(double volumeTmp) {
 		this.volumeTmp = volumeTmp;
 	}
 
-	public Double getAreaBasalTmp() {
+	public double getAreaBasalTmp() {
 		return areaBasalTmp;
 	}
 
-	public void setAreaBasalTmp(Double areaBasalTmp) {
+	public void setAreaBasalTmp(double areaBasalTmp) {
 		this.areaBasalTmp = areaBasalTmp;
 	}
 
