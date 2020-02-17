@@ -29,7 +29,7 @@ import com.embrapa.mft.service.CadAmfService;
 
 
 @RestController
-@RequestMapping("/cadarea")
+@RequestMapping("/cadamf")
 public class CadAmfResource {
 	
 @Autowired	
@@ -41,7 +41,7 @@ private CadAmfService cadAmfService;
 @Autowired
 private ApplicationEventPublisher eventPublisher;
 
-
+@GetMapping
 @PreAuthorize("hasAuthority('ROLE_PESQUISAR_AMF') and #oauth2.hasScope('read')")
 public Page<CadAmf> pesquisar(CadAmfFilter cadAmfFilter, Pageable pageable){
 	return cadAmfRepository.filtrar(cadAmfFilter, pageable);

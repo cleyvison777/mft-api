@@ -100,7 +100,7 @@ public class CadAmf {
 	private String tipoSolo;
 	
 	@Column (name = "d20_relevo")
-	private String Relevo; 
+	private String relevo; 
 	
 	@Column (name = "d20_nmresponsavel")
 	private String mnResponsavel; 
@@ -344,11 +344,11 @@ public class CadAmf {
 	}
 
 	public String getRelevo() {
-		return Relevo;
+		return relevo;
 	}
 
 	public void setRelevo(String relevo) {
-		Relevo = relevo;
+		this.relevo = relevo;
 	}
 
 	public String getMnResponsavel() {

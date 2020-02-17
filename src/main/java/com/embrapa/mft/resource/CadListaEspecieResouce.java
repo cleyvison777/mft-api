@@ -44,14 +44,12 @@ public class CadListaEspecieResouce {
 	@Autowired
 	 private ApplicationEventPublisher publisher;
 	
-	/*
-	 * @GetMapping
-	 * 
-	 * @PreAuthorize("hasAuthority('ROLE_PESQUISAR_ESPECIE') and #oauth2.hasScope('read')"
-	 * ) public Page<CadListaEspecie> pesquisar(CadListaEspecieFilter
-	 * listaEspecieFilter, Pageable pageable){ return
-	 * cadListaEspecieRepository.filtrar(listaEspecieFilter, pageable); }
-	 */
+      @GetMapping
+	  @PreAuthorize("hasAuthority('ROLE_PESQUISAR_ESPECIE') and #oauth2.hasScope('read')"
+	  ) public Page<CadListaEspecie> pesquisar(CadListaEspecieFilter
+	   listaEspecieFilter, Pageable pageable){ return
+	   cadListaEspecieRepository.filtrar(listaEspecieFilter, pageable); }
+	   
 	
 	
 	@PostMapping
