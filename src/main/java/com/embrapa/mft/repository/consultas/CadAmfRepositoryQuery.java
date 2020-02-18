@@ -9,6 +9,6 @@ import com.embrapa.mft.repository.filter.CadAmfFilter;
 
 public interface CadAmfRepositoryQuery {
 	
-	public Page<CadAmf> filtrar(CadAmfFilter cadEmpresaFilter, Pageable pageable);
+	public Page<CadAmf> filtrar(CadAmfFilter cadAmfFilter, Pageable pageable);
 
 }
