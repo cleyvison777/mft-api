@@ -14,14 +14,14 @@ public class CadFamiliaService {
   private CadFamiliaRepository cadFamiliaRepository;
  
  
- public CadFamilia atualizar(Long codigo, CadFamilia cadFamilia) {
-	 CadFamilia cadFamiliaSalva = buscarFamiliaPeloCodigo(codigo);
+ public CadFamilia atualizar(Long cdFamilia, CadFamilia cadFamilia) {
+	 CadFamilia cadFamiliaSalva = buscarFamiliaPeloCodigo(cdFamilia);
 	  BeanUtils.copyProperties(cadFamilia, cadFamiliaSalva, "codigo");
 	   return cadFamiliaRepository.save(cadFamiliaSalva);
  }
  
- public CadFamilia buscarFamiliaPeloCodigo(Long codigo) {
-	 CadFamilia cadFamiliaSalva = cadFamiliaRepository.findOne(codigo);
+ public CadFamilia buscarFamiliaPeloCodigo(Long cdFamilia) {
+	 CadFamilia cadFamiliaSalva = cadFamiliaRepository.findOne(cdFamilia);
 	  if(cadFamiliaSalva == null) {
 		  throw new EmptyResultDataAccessException(1);
 	  }

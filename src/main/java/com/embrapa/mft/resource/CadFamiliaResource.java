@@ -1,15 +1,16 @@
 package com.embrapa.mft.resource;
 
-import java.net.URI;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,53 +20,61 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.embrapa.mft.event.RecursoCriadoEvent;
 import com.embrapa.mft.model.CadFamilia;
 import com.embrapa.mft.repository.CadFamiliaRepository;
+import com.embrapa.mft.repository.filter.CadFamiliaFilter;
+import com.embrapa.mft.service.CadFamiliaService;
 
 
 @RestController
-@RequestMapping("/d01_familia")
+@RequestMapping("/cadFamilia")
 public class CadFamiliaResource {
 	@Autowired
-	private CadFamiliaRepository  mftCadFamliaRepository;
+	private CadFamiliaRepository  cadFamiliaRepository;
+	
+	private CadFamiliaService cadFamiliaService;
+	
+	private ApplicationEventPublisher eventPublisher;
 	
     @GetMapping
-	public List<CadFamilia> ListarFamilia(){
-	 return mftCadFamliaRepository.findAll();
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_FAMILIA') and #oauth2.hasScope('write')")
+	public Page<CadFamilia> pesquisar(CadFamiliaFilter cadFamiliaFilter, Pageable pageable){
+    	return cadFamiliaRepository.filtrar(cadFamiliaFilter, pageable);
+    	
 
 	}
     // Inserir_dados_na_tabela
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_AMF') and #oauth2.hasScope('write')")
    public ResponseEntity<CadFamilia> criar(@RequestBody CadFamilia cadFamilia, HttpServletResponse response){
-    	CadFamilia cadFamiliaSalva = mftCadFamliaRepository.save(cadFamilia);
-    	URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{D01_cdfamilia}")
-    			.buildAndExpand(cadFamiliaSalva.getCdFamilia()).toUri();
-    	        response.setHeader("Location", uri.toASCIIString());
-    	return ResponseEntity.created(uri).body(cadFamiliaSalva);
+    	CadFamilia cadFamiliaSalva = cadFamiliaRepository.save(cadFamilia);
+    	 eventPublisher.publishEvent(new RecursoCriadoEvent(this, response, cadFamilia.getCdFamilia()));
+    	return ResponseEntity.status(HttpStatus.CREATED).body(cadFamiliaSalva);
     }
     
    // Buscar_culuna_especifica
     
-    @GetMapping("/{D01_cdfamilia}")
-    public CadFamilia BuscarCadFamiliaPeloID(@PathVariable Long D01_cdfamilia) {
-    	return mftCadFamliaRepository.findOne(D01_cdfamilia);
+    @GetMapping("/{cdFamilia}")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_FAMILIA') and #oauth2.hasScope('read')")
+    public ResponseEntity<CadFamilia> BuscarCadFamiliaPeloID(@PathVariable Long cdFamilia) {
+    	CadFamilia cadFamilia = cadFamiliaRepository.findOne(cdFamilia);
+    	 return cadFamilia != null ? ResponseEntity.ok(cadFamilia) : ResponseEntity.notFound().build();
      }
   //deleta_Id_especifica
 
-    @DeleteMapping("/{codigo}")
+    @DeleteMapping("/{cdFamilia}")
+    @PreAuthorize("hasAuthority('ROLE_REMOVER_FAMILIA') and #oauth2.hasScope('write')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-     public void Remover(@PathVariable Long codigo) {
-    	mftCadFamliaRepository.delete(codigo);
+     public void Remover(@PathVariable Long cdFamilia) {
+    	cadFamiliaRepository.delete(cdFamilia);
     }
 
-    @PutMapping("/{codigo}")
-     public ResponseEntity<CadFamilia> atualizar(@PathVariable Long codigo, @Valid @RequestBody CadFamilia cadFamilia){
-    	CadFamilia cadFamiliaSalva = mftCadFamliaRepository.findOne(codigo);
-    	 BeanUtils.copyProperties(cadFamilia, cadFamiliaSalva, "codigo");
-    	  mftCadFamliaRepository.save(cadFamiliaSalva);
-    	   return ResponseEntity.ok(cadFamiliaSalva);
+    @PutMapping("/{cdFamilia}")
+     public ResponseEntity<CadFamilia> atualizar(@PathVariable Long cdFamilia, @Valid @RequestBody CadFamilia cadFamilia){
+    	 CadFamilia cadFamiliaSalva = cadFamiliaService.atualizar(cdFamilia, cadFamilia);
+    	return ResponseEntity.ok(cadFamiliaSalva);
     }
     
     
