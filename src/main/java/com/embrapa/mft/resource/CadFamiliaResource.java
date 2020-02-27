@@ -29,13 +29,16 @@ import com.embrapa.mft.service.CadFamiliaService;
 
 
 @RestController
-@RequestMapping("/cadFamilia")
+@RequestMapping("/cadfamilia")
 public class CadFamiliaResource {
+	
 	@Autowired
 	private CadFamiliaRepository  cadFamiliaRepository;
 	
+	@Autowired
 	private CadFamiliaService cadFamiliaService;
 	
+	@Autowired
 	private ApplicationEventPublisher eventPublisher;
 	
     @GetMapping
@@ -47,10 +50,11 @@ public class CadFamiliaResource {
 	}
     // Inserir_dados_na_tabela
     @PostMapping
-    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_AMF') and #oauth2.hasScope('write')")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_FAMILIA') and #oauth2.hasScope('write')")
    public ResponseEntity<CadFamilia> criar(@RequestBody CadFamilia cadFamilia, HttpServletResponse response){
     	CadFamilia cadFamiliaSalva = cadFamiliaRepository.save(cadFamilia);
-    	 eventPublisher.publishEvent(new RecursoCriadoEvent(this, response, cadFamilia.getCdFamilia()));
+    	 eventPublisher.publishEvent(new RecursoCriadoEvent(this, response, cadFamiliaSalva.getCdFamilia()));
+    	 
     	return ResponseEntity.status(HttpStatus.CREATED).body(cadFamiliaSalva);
     }
     
@@ -58,17 +62,17 @@ public class CadFamiliaResource {
     
     @GetMapping("/{cdFamilia}")
     @PreAuthorize("hasAuthority('ROLE_PESQUISAR_FAMILIA') and #oauth2.hasScope('read')")
-    public ResponseEntity<CadFamilia> BuscarCadFamiliaPeloID(@PathVariable Long cdFamilia) {
-    	CadFamilia cadFamilia = cadFamiliaRepository.findOne(cdFamilia);
-    	 return cadFamilia != null ? ResponseEntity.ok(cadFamilia) : ResponseEntity.notFound().build();
-     }
+    public ResponseEntity<CadFamilia> CadFamilia_Buscar_Pelo_Id(@PathVariable Long cdFamilia){
+    	CadFamilia cadFamilia= cadFamiliaRepository.findOne(cdFamilia);
+    	  return cadFamilia != null ? ResponseEntity.ok(cadFamilia) : ResponseEntity.notFound().build();
+    }
   //deleta_Id_especifica
 
-    @DeleteMapping("/{cdFamilia}")
+    @DeleteMapping("/{cdfamilia}")
     @PreAuthorize("hasAuthority('ROLE_REMOVER_FAMILIA') and #oauth2.hasScope('write')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-     public void Remover(@PathVariable Long cdFamilia) {
-    	cadFamiliaRepository.delete(cdFamilia);
+     public void Remover(@PathVariable Long cdfamilia) {
+    	cadFamiliaRepository.delete(cdfamilia);
     }
 
     @PutMapping("/{cdFamilia}")

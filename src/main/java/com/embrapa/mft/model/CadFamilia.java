@@ -13,7 +13,7 @@ public class CadFamilia {
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 
 @Column (name= "d01_cdfamilia")
-private long cdFamilia ;
+private long cdFamilia;
 
 
 @Column (name = "d01_nmfamilia")
