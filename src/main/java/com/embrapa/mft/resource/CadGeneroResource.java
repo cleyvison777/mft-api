@@ -1,15 +1,16 @@
 package com.embrapa.mft.resource;
 
-import java.net.URI;
-import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,50 +20,63 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import com.embrapa.mft.event.RecursoCriadoEvent;
 import com.embrapa.mft.model.Genero;
 import com.embrapa.mft.repository.CadGeneroRepository;
+import com.embrapa.mft.repository.filter.CadGeneroFilter;
+import com.embrapa.mft.service.GeneroService;
 
 
 @RestController
-@RequestMapping("/d02_genero")
+@RequestMapping("/genero")
 public class CadGeneroResource {
 	@Autowired
-	private CadGeneroRepository mftGeneroRepository;
+	private CadGeneroRepository  cadGeneroRepository;
+	
+	@Autowired
+	private GeneroService generoService;
+	
+	@Autowired
+	private ApplicationEventPublisher EventPublisher;
 	
 	@GetMapping
-	public List<Genero> ListarGenero(){
-		return mftGeneroRepository.findAll();
+	@PreAuthorize("hasAuthority('ROLE_LISTAR_GENERO') and #oauth2.hasScope('write')")
+	public Page<Genero> pesquisar(CadGeneroFilter cadGeneroFilter, Pageable pageable){
+		return cadGeneroRepository.filtrar(cadGeneroFilter, pageable);
 	}
 
 	@PostMapping
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_GENERO') and #oauth2.hasScope('write')")
 	public ResponseEntity<Genero> criar (@RequestBody  Genero genero, HttpServletResponse response){
-		Genero generoSalva = mftGeneroRepository.save(genero);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{d02_genero}").
-				buildAndExpand(generoSalva.getCdGenero()).toUri();
-		          response.setHeader("Location", uri.toASCIIString());
-		            return ResponseEntity.created(uri).body(generoSalva);
-	
-	
+		Genero generoSalva = cadGeneroRepository.save(genero);
+		 EventPublisher.publishEvent(new RecursoCriadoEvent(this, response, generoSalva.getCdGenero()));
+	           return ResponseEntity.status(HttpStatus.CREATED).body(generoSalva);
           }
-	
-	@GetMapping("/{d02_genero}")
-	   public Genero buscar_Genero_peloId(@PathVariable Long d02_genero) {
-	        return mftGeneroRepository.findOne(d02_genero);	
+	   // Buscar_culuna_especifica
+	@GetMapping("/{cdgenero}")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_GENERO') and #oauth2.hasScope('read')")
+	   public ResponseEntity<Genero> buscar_Genero_peloId(@PathVariable Long cdgenero) {
+		  Genero genero = cadGeneroRepository.findOne(cdgenero);	
+	        return genero != null ? ResponseEntity.ok(genero) : ResponseEntity.notFound().build();
 	
       }
-	@DeleteMapping("/{codigo}")
+	@DeleteMapping("/{cdgenero}")
+    @PreAuthorize("hasAuthority('ROLE_REMOVER_GENERO') and #oauth2.hasScope('write')")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void  Remover(@PathVariable Long ccodigo) {
-		mftGeneroRepository.delete(ccodigo);
+	public void  Remover(@PathVariable Long cdgenero) {
+		cadGeneroRepository.delete(cdgenero);
 	}
-
-	@PutMapping("/{codigo}")
-	public ResponseEntity<Genero> atualizar (@PathVariable Long codigo, @Valid @RequestBody Genero genero){
-		Genero generoSalva = mftGeneroRepository.findOne(codigo);
-		 BeanUtils.copyProperties(genero, generoSalva, "codigo");
-		  mftGeneroRepository.save(generoSalva);
+	
+	
+    // Inserir_dados_na_tabela
+	@PutMapping("/{cdGenero}")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_GENERO') and #oauth2.hasScope('write')")
+	public ResponseEntity<Genero> atualizar (@PathVariable Long cdGenero, @Valid @RequestBody Genero genero){
+		Genero generoSalva = generoService.atualizar(cdGenero, genero);
 		   return ResponseEntity.ok(generoSalva);
 	}
+	
+
+	
 }
 	

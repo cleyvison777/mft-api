@@ -76,9 +76,10 @@ public class CadFamiliaResource {
     }
 
     @PutMapping("/{cdFamilia}")
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_FAMILIA') and #oauth2.hasScope('write')")
      public ResponseEntity<CadFamilia> atualizar(@PathVariable Long cdFamilia, @Valid @RequestBody CadFamilia cadFamilia){
     	 CadFamilia cadFamiliaSalva = cadFamiliaService.atualizar(cdFamilia, cadFamilia);
-    	return ResponseEntity.ok(cadFamiliaSalva);
+    	    return ResponseEntity.ok(cadFamiliaSalva);
     }
     
     
