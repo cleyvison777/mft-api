@@ -1,12 +1,6 @@
 package com.embrapa.mft.resource;
-
-import java.net.URI;
-import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -23,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.embrapa.mft.event.RecursoCriadoEvent;
 import com.embrapa.mft.model.CadGrupoEcologico;
@@ -39,7 +32,7 @@ public class CadGrupoEcologicoResource {
 	 private CadGrupoEcologicoRepository cadGrupoEcologicoRepository;
 	
 	@Autowired
-	 private CadGrupoEcologicoService cadGrupoEcologicoResource;
+	 private CadGrupoEcologicoService cadGrupoEcologicoService;
 	
 
 	@Autowired
@@ -61,24 +54,27 @@ public class CadGrupoEcologicoResource {
 				   
 	  }
 	  
-	  @GetMapping("/{d06_grupo_ecologico}")
-	   public CadGrupoEcologico buscar_GrupoEcologico_peloId(@PathVariable Long d06_grupo_ecologico) {
-		  return cadGrupoEcologicoRepository.findOne(d06_grupo_ecologico);
+	  @GetMapping("/{cdGrupoEcologico}")
+	    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_GRUPO_ECOLOGICO') and #oauth2.hasScope('read')")
+	    public ResponseEntity<CadGrupoEcologico> buscar_GrupoEcologico_peloId(@PathVariable Long cdGrupoEcologico) {
+		  CadGrupoEcologico cadGrupoEcologico = cadGrupoEcologicoRepository.findOne(cdGrupoEcologico);
+		    return cadGrupoEcologico != null ? ResponseEntity.ok(cadGrupoEcologico) : ResponseEntity.notFound().build();
 		  
 	  }
 	  
-	  @DeleteMapping("/{codigo}") 
+	  @DeleteMapping("/{cdGrupoEcologico}") 
+	  @PreAuthorize("hasAuthority('ROLE_REMOVER_GRUPO_ECOLOGICO') and #oauth2.hasScope('write')")
 	  @ResponseStatus(HttpStatus.NO_CONTENT)
-	  public void Remover(@PathVariable Long codigo) {
-		  cadGrupoEcologicoRepository.delete(codigo);
+	  public void Remover(@PathVariable Long cdGrupoEcologico) {
+		  cadGrupoEcologicoRepository.delete(cdGrupoEcologico);
 	  }
 	  
-	 @PutMapping("/{codigo}")
-	 public ResponseEntity<CadGrupoEcologico> atualizar(@PathVariable Long codigo, @Valid @RequestBody CadGrupoEcologico cadGrupoEcologico){
-		 CadGrupoEcologico cadGrupoEcologicoSalva = cadGrupoEcologicoRepository.findOne(codigo);
-		  BeanUtils.copyProperties(cadGrupoEcologico, cadGrupoEcologicoSalva, "codigo");
-		  cadGrupoEcologicoRepository.save(cadGrupoEcologicoSalva);
-		    return ResponseEntity.ok(cadGrupoEcologicoSalva);
+	 @PutMapping("/{cdGrupoEcologico}")
+	  @PreAuthorize("hasAuthority('ROLE_ATUALIZAR_GRUPO_ECOLOGICO') and #oauth2.hasScope('write')")
+
+	 public ResponseEntity<CadGrupoEcologico> atualizar(@PathVariable Long cdGrupoEcologico, @Valid @RequestBody CadGrupoEcologico cadGrupoEcologico){
+		 CadGrupoEcologico cadGrupoEcologicoSalva = cadGrupoEcologicoService.atualiza(cdGrupoEcologico, cadGrupoEcologico);
+		     return ResponseEntity.ok(cadGrupoEcologicoSalva);
 	 }
 	  
 	  
