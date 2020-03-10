@@ -8,8 +8,12 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,49 +24,60 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import com.embrapa.mft.event.RecursoCriadoEvent;
 import com.embrapa.mft.model.CadGrupoEcologico;
 import com.embrapa.mft.repository.CadGrupoEcologicoRepository;
+import com.embrapa.mft.repository.filter.CadGrupoEcologicoFilter;
+import com.embrapa.mft.service.CadGrupoEcologicoService;
 
 @RestController
-@RequestMapping("/d06_grupo_ecologico")
+@RequestMapping("/grupoecologico")
 public class CadGrupoEcologicoResource {
-
+	
 	 @Autowired
-	 private CadGrupoEcologicoRepository mftGrupoEcologicoRepository;
+	 private CadGrupoEcologicoRepository cadGrupoEcologicoRepository;
+	
+	@Autowired
+	 private CadGrupoEcologicoService cadGrupoEcologicoResource;
+	
+
+	@Autowired
+	private ApplicationEventPublisher EventPublisher;
 	  
 	  @GetMapping 
-	  public List<CadGrupoEcologico> ListarGrupoEcologico(){
-		  return mftGrupoEcologicoRepository.findAll();
+	  @PreAuthorize("hasAuthority('ROLE_LISTAR_GRUPO_ECOLOGICO') and #oauth2.hasScope('write')")
+	  public Page<CadGrupoEcologico> pesquisar(CadGrupoEcologicoFilter cadGrupoEcologicoFilter, Pageable pageable){
+		  return cadGrupoEcologicoRepository.filtrar(cadGrupoEcologicoFilter, pageable);
 	  }
 	  
 	  @PostMapping
-	  
+	    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_GRUPO_ECOLOGICO') and #oauth2.hasScope('write')")
+
 	  public ResponseEntity<CadGrupoEcologico> criar (@RequestBody CadGrupoEcologico cadGrupoEcologico, HttpServletResponse response){
-		  CadGrupoEcologico cadGrupoEcologicoSalva = mftGrupoEcologicoRepository.save(cadGrupoEcologico);
-		   URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{d06_grupo_ecologico}").
-				   buildAndExpand(cadGrupoEcologicoSalva.getCdGrupoEcologico()).toUri();
-		   response.setHeader("Location", uri.toASCIIString());
-		     return ResponseEntity.created(uri).body(cadGrupoEcologicoSalva);
+		  CadGrupoEcologico cadGrupoEcologicoSalva = cadGrupoEcologicoRepository.save(cadGrupoEcologico);
+		      EventPublisher.publishEvent(new RecursoCriadoEvent(this, response, cadGrupoEcologicoSalva.getCdGrupoEcologico()));
+		     return ResponseEntity.status(HttpStatus.CREATED).body(cadGrupoEcologicoSalva);
 				   
 	  }
 	  
 	  @GetMapping("/{d06_grupo_ecologico}")
 	   public CadGrupoEcologico buscar_GrupoEcologico_peloId(@PathVariable Long d06_grupo_ecologico) {
-		  return mftGrupoEcologicoRepository.findOne(d06_grupo_ecologico);
+		  return cadGrupoEcologicoRepository.findOne(d06_grupo_ecologico);
 		  
 	  }
 	  
 	  @DeleteMapping("/{codigo}") 
 	  @ResponseStatus(HttpStatus.NO_CONTENT)
 	  public void Remover(@PathVariable Long codigo) {
-	 	 mftGrupoEcologicoRepository.delete(codigo);
+		  cadGrupoEcologicoRepository.delete(codigo);
 	  }
 	  
 	 @PutMapping("/{codigo}")
 	 public ResponseEntity<CadGrupoEcologico> atualizar(@PathVariable Long codigo, @Valid @RequestBody CadGrupoEcologico cadGrupoEcologico){
-		 CadGrupoEcologico cadGrupoEcologicoSalva = mftGrupoEcologicoRepository.findOne(codigo);
+		 CadGrupoEcologico cadGrupoEcologicoSalva = cadGrupoEcologicoRepository.findOne(codigo);
 		  BeanUtils.copyProperties(cadGrupoEcologico, cadGrupoEcologicoSalva, "codigo");
-		   mftGrupoEcologicoRepository.save(cadGrupoEcologicoSalva);
+		  cadGrupoEcologicoRepository.save(cadGrupoEcologicoSalva);
 		    return ResponseEntity.ok(cadGrupoEcologicoSalva);
 	 }
 	  

@@ -20,7 +20,7 @@ import com.embrapa.mft.model.Genero;
 import com.embrapa.mft.model.Genero_;
 import com.embrapa.mft.repository.filter.CadGeneroFilter;
 
-public class CadGeneroRepositoryImpl implements CadGeneroRepositoryQuery{
+public class CadGeneroRepositoryImpl implements CadGeneroRepositoryQuery {
 	
 @PersistenceContext
 private EntityManager manager;
