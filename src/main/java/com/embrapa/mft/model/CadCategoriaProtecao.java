@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "d09_categoria_protecao")
-public class CategoriaProtecao {
+public class CadCategoriaProtecao {
 	@Id
 	@GeneratedValue(strategy =  GenerationType.IDENTITY)
 	@Column(name = "d09_cdcategoriaprotecao")
@@ -57,7 +57,7 @@ public class CategoriaProtecao {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CategoriaProtecao other = (CategoriaProtecao) obj;
+		CadCategoriaProtecao other = (CadCategoriaProtecao) obj;
 		if (cdCategoriaProtecao == null) {
 			if (other.cdCategoriaProtecao != null)
 				return false;
