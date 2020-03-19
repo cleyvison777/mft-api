@@ -1,6 +1,5 @@
 package com.embrapa.mft.resource;
 
-import java.net.URI;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import com.embrapa.mft.event.RecursoCriadoEvent;
 import com.embrapa.mft.model.CadCategoriaProtecao;
 import com.embrapa.mft.repository.CadCategoriaProtecaoRepository;
 import com.embrapa.mft.repository.filter.CadCategoriaProtecaoFilter;
@@ -50,31 +49,32 @@ public class CategoriaProtecaoResource {
 	}
 
 	@PostMapping
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_CATEGORIA') and #oauth2.hasScope('write')")
 	public ResponseEntity<CadCategoriaProtecao> criar(@RequestBody CadCategoriaProtecao categoriaProtecao, HttpServletResponse response){
 		CadCategoriaProtecao categoriaProtecaoSalva = cadCategoriaProtecaoRepository.save(categoriaProtecao);
-		 URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{d09_categoria_protecao}")
-				 .buildAndExpand(categoriaProtecaoSalva.getCdCategoriaProtecao()).toUri();
-		            response.setHeader("Location", uri.toASCIIString());
-		             return ResponseEntity.created(uri).body(categoriaProtecaoSalva);
+		     EventPublisher.publishEvent(new RecursoCriadoEvent(this, response, categoriaProtecaoSalva.getCdCategoriaProtecao()));
+		      return ResponseEntity.status(HttpStatus.CREATED).body(categoriaProtecaoSalva);
 	}
 	
 	
-	@GetMapping("/{d09_categoria_protecao}")
-	public CadCategoriaProtecao CategoriaProtecao_Buscar_Pelo_Id(@PathVariable Long d09_categoria_protecao) {
-		return cadCategoriaProtecaoRepository.findOne(d09_categoria_protecao);
+	@GetMapping("/{cdCategoriaProtecao}")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_CATEGORIA') and #oauth2.hasScope('read')")
+	public ResponseEntity<CadCategoriaProtecao> CategoriaProtecao_Buscar_Pelo_Id(@PathVariable Long cdCategoriaProtecao) {
+		  CadCategoriaProtecao cadCategoriaProtecao = cadCategoriaProtecaoRepository.findOne(cdCategoriaProtecao);    
+		    return cadCategoriaProtecao!= null ? ResponseEntity.ok(cadCategoriaProtecao) : ResponseEntity.notFound().build();
 	}
 	
-	@DeleteMapping("/{codigo}")
+	@DeleteMapping("/{cdCategoriaProtecao}")
+    @PreAuthorize("hasAuthority('ROLE_REMOVER_CATEGORIA') and #oauth2.hasScope('write')")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void Remover(@PathVariable Long codigo) {
-		cadCategoriaProtecaoRepository.delete(codigo);
+	public void Remover(@PathVariable Long cdCategoriaProtecao) {
+		cadCategoriaProtecaoRepository.delete(cdCategoriaProtecao);
 	}
 	
-	  @PutMapping("/{codigo}")
-	  public ResponseEntity<CadCategoriaProtecao> atualizar(@PathVariable Long codigo, @Valid @RequestBody CadCategoriaProtecao categoriaProtecao){
-		  CadCategoriaProtecao categoriaProtecaoSalva = cadCategoriaProtecaoRepository.findOne(codigo);
-		   BeanUtils.copyProperties(categoriaProtecao, categoriaProtecaoSalva, "codigo");
-		   cadCategoriaProtecaoRepository.save(categoriaProtecaoSalva);
+	  @PutMapping("/{cdCategoriaProtecao}")
+	    @PreAuthorize("hasAuthority('ROLE_ATUALIZAR_CATEGORIA') and #oauth2.hasScope('write')")
+	  public ResponseEntity<CadCategoriaProtecao> atualizar(@PathVariable Long cdCategoriaProtecao, @Valid @RequestBody CadCategoriaProtecao cadCategoriaProtecao){
+		  CadCategoriaProtecao categoriaProtecaoSalva = cadCategoriaProtecaoService.atualizar(cdCategoriaProtecao, cadCategoriaProtecao);
 		     return ResponseEntity.ok(categoriaProtecaoSalva);
 		    		
 	  }
