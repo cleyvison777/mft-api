@@ -26,7 +26,7 @@ public class CadFamiliaRepositoryImpl  implements CadFamiliaRepositoryQuery {
 	private EntityManager manager;
 	
 	@Override
-	public Page<CadFamilia> filtrar(CadFamiliaFilter cadFamiliaFilter, Pageable pageable) {
+	public List<CadFamilia> filtrar(CadFamiliaFilter cadFamiliaFilter) {
 		
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		 CriteriaQuery<CadFamilia> criteria = builder .createQuery(CadFamilia.class);
@@ -34,9 +34,9 @@ public class CadFamiliaRepositoryImpl  implements CadFamiliaRepositoryQuery {
 		   Predicate[] predicates = criarRestricoes(cadFamiliaFilter, builder, root);
 		     criteria.where(predicates);
 		     TypedQuery<CadFamilia> query = manager.createQuery(criteria);
-		     adiconarRestricoesDePaginacao(query, pageable);
 		     
-		return new PageImpl<>(query.getResultList(), pageable, total(cadFamiliaFilter));
+		     
+		return query.getResultList();
 	}
 
 

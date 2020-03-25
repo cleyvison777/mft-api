@@ -1,6 +1,8 @@
 package com.embrapa.mft.resource;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -43,8 +45,8 @@ public class CadFamiliaResource {
 	
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_CADASTRAR_FAMILIA') and #oauth2.hasScope('write')")
-	public Page<CadFamilia> pesquisar(CadFamiliaFilter cadFamiliaFilter, Pageable pageable){
-    	return cadFamiliaRepository.filtrar(cadFamiliaFilter, pageable);
+	public List<CadFamilia> pesquisar(CadFamiliaFilter cadFamiliaFilter){
+    	return cadFamiliaRepository.filtrar(cadFamiliaFilter);
     	
 
 	}
