@@ -46,7 +46,7 @@ private EntityManager manager;
 		    if(!StringUtils.isEmpty(generoFilter.getNmGenero())) {
 		    	predicates.add(builder.like(
 		    			builder.lower(root.get(Genero_.nmGenero)), "%" + generoFilter.getNmGenero().toLowerCase() + "%"));
-		    }
+		    } 
 		    
 		    return predicates.toArray(new Predicate[predicates.size()]);
 	     }
