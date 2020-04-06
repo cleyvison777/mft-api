@@ -45,8 +45,8 @@ public class CadFamiliaResource {
 	
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_CADASTRAR_FAMILIA') and #oauth2.hasScope('write')")
-	public List<CadFamilia> pesquisar(CadFamiliaFilter cadFamiliaFilter){
-    	return cadFamiliaRepository.filtrar(cadFamiliaFilter);
+	public Page<CadFamilia> pesquisar(CadFamiliaFilter cadFamiliaFilter, Pageable pageable){
+    	return cadFamiliaRepository.filtrar(cadFamiliaFilter, pageable);
     	
 
 	}

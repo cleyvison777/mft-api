@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
+import com.embrapa.mft.model.CadEmpresa;
 import com.embrapa.mft.model.CadFamilia;
 import com.embrapa.mft.model.CadFamilia_;
 import com.embrapa.mft.repository.filter.CadFamiliaFilter;
@@ -26,17 +27,21 @@ public class CadFamiliaRepositoryImpl  implements CadFamiliaRepositoryQuery {
 	private EntityManager manager;
 	
 	@Override
-	public List<CadFamilia> filtrar(CadFamiliaFilter cadFamiliaFilter) {
+	public Page<CadFamilia> filtrar(CadFamiliaFilter cadFamiliaFilter,Pageable pageable) {
 		
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		 CriteriaQuery<CadFamilia> criteria = builder .createQuery(CadFamilia.class);
-		  Root<CadFamilia> root = criteria.from(CadFamilia.class);
-		   Predicate[] predicates = criarRestricoes(cadFamiliaFilter, builder, root);
-		     criteria.where(predicates);
+		CriteriaQuery<CadFamilia> criteria = builder .createQuery(CadFamilia.class);
+		Root<CadFamilia> root = criteria.from(CadFamilia.class);
+		  
+		Predicate[] predicates = criarRestricoes(cadFamiliaFilter, builder, root);
+		criteria.where(predicates);
 		     TypedQuery<CadFamilia> query = manager.createQuery(criteria);
+		     adiconarRestricoesDePaginacao(query, pageable);    
 		     
-		     
-		return query.getResultList();
+		return new PageImpl<>(query.getResultList(), pageable, total(cadFamiliaFilter));
+		
+		
+		
 	}
 
 
