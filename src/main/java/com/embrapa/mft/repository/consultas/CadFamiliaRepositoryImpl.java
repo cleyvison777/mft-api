@@ -16,7 +16,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
-import com.embrapa.mft.model.CadEmpresa;
 import com.embrapa.mft.model.CadFamilia;
 import com.embrapa.mft.model.CadFamilia_;
 import com.embrapa.mft.repository.filter.CadFamiliaFilter;

@@ -20,8 +20,8 @@ public abstract class CadAmf_ {
 	public static volatile SingularAttribute<CadAmf, Integer> precipMediaMensalSecamm;
 	public static volatile SingularAttribute<CadAmf, String> latitude1Orientacao;
 	public static volatile SingularAttribute<CadAmf, Integer> latitude1Grau;
-	public static volatile SingularAttribute<CadAmf, Integer> lgMudaContada;
-	public static volatile SingularAttribute<CadAmf, Integer> lgPalmeiraContada;
+	public static volatile SingularAttribute<CadAmf, Boolean> lgMudaContada;
+	public static volatile SingularAttribute<CadAmf, Boolean> lgPalmeiraContada;
 	public static volatile SingularAttribute<CadAmf, String> mesesSeca;
 	public static volatile SingularAttribute<CadAmf, Integer> longitude1Minuto;
 	public static volatile SingularAttribute<CadAmf, Integer> precipMediaMensalChuvamm;
@@ -44,6 +44,7 @@ public abstract class CadAmf_ {
 	public static volatile SingularAttribute<CadAmf, String> mnResponsavel;
 	public static volatile SingularAttribute<CadAmf, String> latitude2Orientacao;
 	public static volatile SingularAttribute<CadAmf, String> emailResponsavel;
+
 
 }
 

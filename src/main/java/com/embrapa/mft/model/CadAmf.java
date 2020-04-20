@@ -23,7 +23,7 @@ public class CadAmf {
 	private CadListaEspecie cdListaEsp; 
 	
 	@ManyToOne
-	@JoinColumn(name ="d20_cdempresa")
+	@JoinColumn(name ="d20_cdempresa", referencedColumnName = "d13_cdempresa")
 	private CadEmpresa cdEmpresa;
 	
 	@Column (name = "d20_cdequacaoareabasalpadrao")
@@ -122,11 +122,12 @@ public class CadAmf {
 	
 	
 	@Column (name = "d20_lgmudacontada")
-	private Integer lgMudaContada; 
+	private Boolean lgMudaContada; 
 	
 	@Column (name = "d20_lgpalmeiracontada")
-	private Integer lgPalmeiraContada; 
+	private Boolean lgPalmeiraContada; 
 	
+
 	public long getCdarea() {
 		return cdarea;
 	}
@@ -399,19 +400,19 @@ public class CadAmf {
 		this.txObservacaoArea = txObservacaoArea;
 	}
 
-	public Integer getLgMudaContada() {
+	public Boolean getLgMudaContada() {
 		return lgMudaContada;
 	}
 
-	public void setLgMudaContada(Integer lgMudaContada) {
+	public void setLgMudaContada(Boolean lgMudaContada) {
 		this.lgMudaContada = lgMudaContada;
 	}
 
-	public Integer getLgPalmeiraContada() {
+	public Boolean getLgPalmeiraContada() {
 		return lgPalmeiraContada;
 	}
 
-	public void setLgPalmeiraContada(Integer lgPalmeiraContada) {
+	public void setLgPalmeiraContada(Boolean lgPalmeiraContada) {
 		this.lgPalmeiraContada = lgPalmeiraContada;
 	}
 

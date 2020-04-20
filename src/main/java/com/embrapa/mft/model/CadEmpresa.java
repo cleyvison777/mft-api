@@ -25,7 +25,7 @@ public class CadEmpresa {
 	@Column(name="d13_nrtelefone")
 	private String nrTelefone;
 
-	@Column(name="d13_enderecocompleto ")
+	@Column(name="d13_enderecocompleto")
 	private String enderecoCompleto;
 	
 	@Column(name="d13_txpessoacontato")
