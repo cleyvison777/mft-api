@@ -11,7 +11,7 @@ public abstract class UsoEspecie_ {
 	public static volatile SingularAttribute<UsoEspecie, Long> cdUso;
 	public static volatile SingularAttribute<UsoEspecie, CadEmpresa> cdEmpresa;
 	public static volatile SingularAttribute<UsoEspecie, String> nmUso;
-	public static volatile SingularAttribute<UsoEspecie, Integer> lgMadeira;
+	public static volatile SingularAttribute<UsoEspecie, Boolean> lgMadeira;
 
 }
 
