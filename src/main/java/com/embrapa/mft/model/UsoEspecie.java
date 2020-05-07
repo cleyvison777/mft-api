@@ -25,8 +25,9 @@ public class UsoEspecie {
 	private String nmUso;
 	
 	@Column(name = "d07_lgmadeira")
-	private Boolean lgMadeira;
-
+	private String lgMadeira;
+	
+	
 	public long getCdUso() {
 		return cdUso;
 	}
@@ -51,13 +52,15 @@ public class UsoEspecie {
 		this.nmUso = nmUso;
 	}
 
-	public Boolean getLgMadeira() {
+	public String getLgMadeira() {
 		return lgMadeira;
 	}
 
-	public void setLgMadeira(Boolean lgMadeira) {
+	public void setLgMadeira(String lgMadeira) {
 		this.lgMadeira = lgMadeira;
 	}
+	
+
 
 	@Override
 	public int hashCode() {
