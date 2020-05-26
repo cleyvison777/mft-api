@@ -26,7 +26,7 @@ public class TipoParcelaMft {
 	private String nmTipoparcela;
 	
 	@Column(name= "d22_lgestudocrescimento")
-	private Integer lgEstudoCrescimento;
+	private Boolean lgEstudoCrescimento;
 
 	public long getCdTipoparcela() {
 		return cdTipoparcela;
@@ -52,11 +52,11 @@ public class TipoParcelaMft {
 		this.nmTipoparcela = nmTipoparcela;
 	}
 
-	public Integer getLgEstudoCrescimento() {
+	public Boolean getLgEstudoCrescimento() {
 		return lgEstudoCrescimento;
 	}
 
-	public void setLgEstudoCrescimento(Integer lgEstudoCrescimento) {
+	public void setLgEstudoCrescimento(Boolean lgEstudoCrescimento) {
 		this.lgEstudoCrescimento = lgEstudoCrescimento;
 	}
 
