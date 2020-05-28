@@ -31,8 +31,8 @@ public abstract class CadAmf_ {
 	public static volatile SingularAttribute<CadAmf, Integer> latitude2Grau;
 	public static volatile SingularAttribute<CadAmf, String> nmMunicipio;
 	public static volatile SingularAttribute<CadAmf, String> tipoSolo;
-	public static volatile SingularAttribute<CadAmf, String> Relevo;
 	public static volatile SingularAttribute<CadAmf, String> nrTelefoneResponsavel;
+	public static volatile SingularAttribute<CadAmf, String> relevo;
 	public static volatile SingularAttribute<CadAmf, Long> cdarea;
 	public static volatile SingularAttribute<CadAmf, Long> cdEquacaoAreaBasalPadrao;
 	public static volatile SingularAttribute<CadAmf, CadEmpresa> cdEmpresa;
@@ -44,7 +44,6 @@ public abstract class CadAmf_ {
 	public static volatile SingularAttribute<CadAmf, String> mnResponsavel;
 	public static volatile SingularAttribute<CadAmf, String> latitude2Orientacao;
 	public static volatile SingularAttribute<CadAmf, String> emailResponsavel;
-
 
 }
 

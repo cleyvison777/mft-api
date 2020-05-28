@@ -28,7 +28,7 @@ public class ParcelaMft {
 	
 	@ManyToOne
 	@JoinColumn(name = "d21_cdtipoparcela")
-	private  TipoParcelaMft tipoParcelaMft;
+	private  CadTipoParcela tipoParcelaMft;
 	
 	@Column(name = "d21_txobservacaoparcela")
 	private String txObservacaoParcela;
@@ -132,11 +132,11 @@ public class ParcelaMft {
 		this.cdArea = cdArea;
 	}
 
-	public TipoParcelaMft getTipoParcelaMft() {
+	public CadTipoParcela getTipoParcelaMft() {
 		return tipoParcelaMft;
 	}
 
-	public void setTipoParcelaMft(TipoParcelaMft tipoParcelaMft) {
+	public void setTipoParcelaMft(CadTipoParcela tipoParcelaMft) {
 		this.tipoParcelaMft = tipoParcelaMft;
 	}
 

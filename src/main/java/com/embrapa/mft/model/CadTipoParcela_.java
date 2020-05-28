@@ -6,11 +6,11 @@ import javax.persistence.metamodel.StaticMetamodel;
 
 @Generated(value = "org.hibernate.jpamodelgen.JPAMetaModelEntityProcessor")
 @StaticMetamodel(CadTipoParcela.class)
-public abstract class TipoParcelaMft_ {
+public abstract class CadTipoParcela_ {
 
 	public static volatile SingularAttribute<CadTipoParcela, Long> cdTipoparcela;
 	public static volatile SingularAttribute<CadTipoParcela, CadEmpresa> cdEmpresa;
-	public static volatile SingularAttribute<CadTipoParcela, Integer> lgEstudoCrescimento;
+	public static volatile SingularAttribute<CadTipoParcela, Boolean> lgEstudoCrescimento;
 	public static volatile SingularAttribute<CadTipoParcela, String> nmTipoparcela;
 
 }

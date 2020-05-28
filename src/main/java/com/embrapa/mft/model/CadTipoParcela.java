@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="d22_tipo_parcela")
-public class TipoParcelaMft {
+public class CadTipoParcela {
     
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -76,7 +76,7 @@ public class TipoParcelaMft {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TipoParcelaMft other = (TipoParcelaMft) obj;
+		CadTipoParcela other = (CadTipoParcela) obj;
 		if (cdTipoparcela != other.cdTipoparcela)
 			return false;
 		return true;

@@ -13,6 +13,5 @@ public abstract class UsoEspecie_ {
 	public static volatile SingularAttribute<UsoEspecie, String> nmUso;
 	public static volatile SingularAttribute<UsoEspecie, String> lgMadeira;
 
-
 }
 

@@ -26,7 +26,7 @@ public abstract class ParcelaMft_ {
 	public static volatile SingularAttribute<ParcelaMft, Integer> longitudePonto3Grau;
 	public static volatile SingularAttribute<ParcelaMft, Integer> longitudePonto3Minuto;
 	public static volatile SingularAttribute<ParcelaMft, String> latitudePonto1Orientacao;
-	public static volatile SingularAttribute<ParcelaMft, TipoParcelaMft> tipoParcelaMft;
+	public static volatile SingularAttribute<ParcelaMft, CadTipoParcela> tipoParcelaMft;
 	public static volatile SingularAttribute<ParcelaMft, CadEmpresa> cdEmpresa;
 	public static volatile SingularAttribute<ParcelaMft, Integer> latitudePonto2Grau;
 	public static volatile SingularAttribute<ParcelaMft, Integer> longitudePonto1Grau;

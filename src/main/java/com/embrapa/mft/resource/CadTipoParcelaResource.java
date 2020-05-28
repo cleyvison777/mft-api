@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import com.embrapa.mft.model.TipoParcelaMft;
+import com.embrapa.mft.model.CadTipoParcela;
 import com.embrapa.mft.repository.CadTipoParcelaRepository;
 
 @RestController
@@ -26,16 +26,16 @@ import com.embrapa.mft.repository.CadTipoParcelaRepository;
 public class CadTipoParcelaResource {
 
 	@Autowired
-	private CadTipoParcelaRepository mftTipoParcelaRepository;
+	private CadTipoParcelaRepository cadParcelaRepository;
 	
 	@GetMapping
-	public List<TipoParcelaMft> ListarTipoParcela(){
-		return mftTipoParcelaRepository.findAll();
+	public List<CadTipoParcela> ListarTipoParcela(){
+		return cadParcelaRepository.findAll();
 	}
 	
 	@PostMapping
-	public ResponseEntity<TipoParcelaMft> criar (@RequestBody TipoParcelaMft tipoParcelaMft, HttpServletResponse response){
-		TipoParcelaMft tipoParcelaMftSalva = mftTipoParcelaRepository.save(tipoParcelaMft);
+	public ResponseEntity<CadTipoParcela> criar (@RequestBody CadTipoParcela tipoParcelaMft, HttpServletResponse response){
+		CadTipoParcela tipoParcelaMftSalva = cadParcelaRepository.save(tipoParcelaMft);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{d22_tipo_parcela}").
 				buildAndExpand(tipoParcelaMftSalva.getCdTipoparcela()).toUri();
 		response.setHeader("Location", uri.toASCIIString());
@@ -45,22 +45,22 @@ public class CadTipoParcelaResource {
 }
 	
 @GetMapping("/{d22_cdtipoparcela}")
- public TipoParcelaMft Buscar_Tipo_ParcelaId(@PathVariable Long d22_cdtipoparcela) {
-	return mftTipoParcelaRepository.findOne(d22_cdtipoparcela);
+ public CadTipoParcela Buscar_Tipo_ParcelaId(@PathVariable Long d22_cdtipoparcela) {
+	return cadParcelaRepository.findOne(d22_cdtipoparcela);
 }
 
 
  @DeleteMapping("/{codigo}")
  @ResponseStatus(HttpStatus.NO_CONTENT)
   public void Remover(@PathVariable Long codigo) {
-	 mftTipoParcelaRepository.delete(codigo);
+	 cadParcelaRepository.delete(codigo);
       }
  
  @PutMapping("/{codigo}")
-  public ResponseEntity<TipoParcelaMft> atualizar (@PathVariable Long codigo, @Valid @RequestBody TipoParcelaMft tipoParcelaMft){
-	  TipoParcelaMft tipoParcelaMftSalva = mftTipoParcelaRepository.findOne(codigo);
+  public ResponseEntity<CadTipoParcela> atualizar (@PathVariable Long codigo, @Valid @RequestBody CadTipoParcela tipoParcelaMft){
+	  CadTipoParcela tipoParcelaMftSalva = cadParcelaRepository.findOne(codigo);
 	   BeanUtils.copyProperties(tipoParcelaMft, tipoParcelaMftSalva, "codigo");
-	    mftTipoParcelaRepository.save(tipoParcelaMftSalva);
+	   cadParcelaRepository.save(tipoParcelaMftSalva);
 	     return ResponseEntity.ok(tipoParcelaMftSalva);
  }
 
