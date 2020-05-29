@@ -30,6 +30,7 @@ import com.embrapa.mft.service.CadEmpresaService;
 @RestController
 @RequestMapping("/cadempresa")
 public class CadEmpresaResource {
+	
 	@Autowired
 	private CadEmpresaRepository cadEmpresaRepository;
 

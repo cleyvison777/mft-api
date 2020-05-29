@@ -8,10 +8,10 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(CadTipoParcela.class)
 public abstract class CadTipoParcela_ {
 
-	public static volatile SingularAttribute<CadTipoParcela, Long> cdTipoparcela;
 	public static volatile SingularAttribute<CadTipoParcela, CadEmpresa> cdEmpresa;
 	public static volatile SingularAttribute<CadTipoParcela, Boolean> lgEstudoCrescimento;
-	public static volatile SingularAttribute<CadTipoParcela, String> nmTipoparcela;
+	public static volatile SingularAttribute<CadTipoParcela, Long> cdTipoParcela;
+	public static volatile SingularAttribute<CadTipoParcela, String> nmTipoParcela;
 
 }
 

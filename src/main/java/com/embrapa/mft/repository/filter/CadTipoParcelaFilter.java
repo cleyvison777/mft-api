@@ -1,17 +1,17 @@
 package com.embrapa.mft.repository.filter;
 
 public class CadTipoParcelaFilter {
-	
- private String nmTipoparcela;
 
-	public String getNmTipoparcela() {
-		return nmTipoparcela;
-	}
 	
-	public void setNmTipoparcela(String nmTipoparcela) {
-		this.nmTipoparcela = nmTipoparcela;
+	private String nmTipoParcela;
+
+	public String getNmTipoParcela() {
+		return nmTipoParcela;
 	}
 
+	public void setNmTipoParcela(String nmTipoParcela) {
+		this.nmTipoParcela = nmTipoParcela;
+	}
 	
 	
 }

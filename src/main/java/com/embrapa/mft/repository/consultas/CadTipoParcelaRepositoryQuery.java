@@ -8,7 +8,6 @@ import com.embrapa.mft.repository.filter.CadTipoParcelaFilter;
 
 public interface CadTipoParcelaRepositoryQuery {
 
-	public Page<CadTipoParcela> fitrar(CadTipoParcelaFilter cadTipoParcelaFilter, Pageable pageable);
-		
-	}
-
+	
+	public Page<CadTipoParcela> filtrar(CadTipoParcelaFilter cadTipoParcelaFilter, Pageable pageable);
+}
