@@ -20,7 +20,7 @@ public class CadTratamentoSilvicultural {
 	
 	@ManyToOne
 	@JoinColumn(name = "d36_cdempresa")
-	private CadEmpresa cadEmpresa;
+	private CadEmpresa cdEmpresa;
 	
 	@Column(name = "d36_nmtratamento")
 	private String nmTratamento;
@@ -33,12 +33,13 @@ public class CadTratamentoSilvicultural {
 		this.cdTratamento = cdTratamento;
 	}
 
-	public CadEmpresa getCadEmpresa() {
-		return cadEmpresa;
+	
+	public CadEmpresa getCdEmpresa() {
+		return cdEmpresa;
 	}
 
-	public void setCadEmpresa(CadEmpresa cadEmpresa) {
-		this.cadEmpresa = cadEmpresa;
+	public void setCdEmpresa(CadEmpresa cdEmpresa) {
+		this.cdEmpresa = cdEmpresa;
 	}
 
 	public String getNmTratamento() {

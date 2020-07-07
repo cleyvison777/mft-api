@@ -8,9 +8,9 @@ import javax.persistence.metamodel.StaticMetamodel;
 @StaticMetamodel(CadTratamentoSilvicultural.class)
 public abstract class CadTratamentoSilvicultural_ {
 
+	public static volatile SingularAttribute<CadTratamentoSilvicultural, CadEmpresa> cdEmpresa;
 	public static volatile SingularAttribute<CadTratamentoSilvicultural, String> nmTratamento;
 	public static volatile SingularAttribute<CadTratamentoSilvicultural, Long> cdTratamento;
-	public static volatile SingularAttribute<CadTratamentoSilvicultural, CadEmpresa> cadEmpresa;
 
 }
 
