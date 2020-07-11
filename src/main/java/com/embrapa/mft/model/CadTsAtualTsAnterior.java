@@ -20,7 +20,7 @@ public class CadTsAtualTsAnterior {
 	
 	@ManyToOne
 	@JoinColumn(name = "r35_cdempresa")
-	private CadEmpresa cadEmpresa;
+	private CadEmpresa cdEmpresa;
 	
 	@ManyToOne
 	@JoinColumn(name = "r35_cdtratamentoatual", referencedColumnName = "d36_cdtratamento")
@@ -34,12 +34,13 @@ public class CadTsAtualTsAnterior {
 		this.cdTratamentAnterior = cdTratamentAnterior;
 	}
 
-	public CadEmpresa getCadEmpresa() {
-		return cadEmpresa;
+
+	public CadEmpresa getCdEmpresa() {
+		return cdEmpresa;
 	}
 
-	public void setCadEmpresa(CadEmpresa cadEmpresa) {
-		this.cadEmpresa = cadEmpresa;
+	public void setCdEmpresa(CadEmpresa cdEmpresa) {
+		this.cdEmpresa = cdEmpresa;
 	}
 
 	public CadTratamentoSilvicultural getCadTratamentoSilvicultural() {
