@@ -24,7 +24,7 @@ public class CadTsAtualTsAnterior {
 	
 	@ManyToOne
 	@JoinColumn(name = "r35_cdtratamentoatual", referencedColumnName = "d36_cdtratamento")
-	private CadTratamentoSilvicultural cadTratamentoSilvicultural;
+	private CadTratamentoSilvicultural cdtratamentoatual;
 
 	public long getCdTratamentAnterior() {
 		return cdTratamentAnterior;
@@ -43,12 +43,14 @@ public class CadTsAtualTsAnterior {
 		this.cdEmpresa = cdEmpresa;
 	}
 
-	public CadTratamentoSilvicultural getCadTratamentoSilvicultural() {
-		return cadTratamentoSilvicultural;
+	
+
+	public CadTratamentoSilvicultural getR35_cdtratamentoatual() {
+		return cdtratamentoatual;
 	}
 
-	public void setCadTratamentoSilvicultural(CadTratamentoSilvicultural cadTratamentoSilvicultural) {
-		this.cadTratamentoSilvicultural = cadTratamentoSilvicultural;
+	public void setR35_cdtratamentoatual(CadTratamentoSilvicultural cdtratamentoatual) {
+		this.cdtratamentoatual = cdtratamentoatual;
 	}
 
 	@Override

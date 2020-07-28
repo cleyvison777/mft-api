@@ -9,8 +9,8 @@ import javax.persistence.metamodel.StaticMetamodel;
 public abstract class CadTsAtualTsAnterior_ {
 
 	public static volatile SingularAttribute<CadTsAtualTsAnterior, CadEmpresa> cdEmpresa;
-	public static volatile SingularAttribute<CadTsAtualTsAnterior, CadTratamentoSilvicultural> cadTratamentoSilvicultural;
 	public static volatile SingularAttribute<CadTsAtualTsAnterior, Long> cdTratamentAnterior;
+	public static volatile SingularAttribute<CadTsAtualTsAnterior, CadTratamentoSilvicultural> cdtratamentoatual;
 
 }
 
