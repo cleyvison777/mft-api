@@ -48,13 +48,14 @@ public class CadTratamentoSilviculturalResource {
 	}
 	
 	@PostMapping
-	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_CadTratamentoSilvicultural') and #oauth2.hasScope('write')")
-	public ResponseEntity<CadTratamentoSilvicultural> criar(@RequestBody CadTratamentoSilvicultural cadTratamentoSilvicultural, HttpServletResponse response){
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_AMF') and #oauth2.hasScope('write')")
+    public ResponseEntity<CadTratamentoSilvicultural> criar(@RequestBody CadTratamentoSilvicultural cadTratamentoSilvicultural, HttpServletResponse response){
 		CadTratamentoSilvicultural cadTratamentoSilviculturalSalva = cadTratamentoSilviculturalRepository.save(cadTratamentoSilvicultural);
-		 eventPublisher.publishEvent(new RecursoCriadoEvent(this, response, cadTratamentoSilviculturalSalva.getCdTratamento()));
-		  return ResponseEntity.status(HttpStatus.CREATED).body(cadTratamentoSilviculturalSalva);
+		eventPublisher.publishEvent(new RecursoCriadoEvent(this, response, cadTratamentoSilviculturalSalva.getCdTratamento()));
+		return ResponseEntity.status(HttpStatus.CREATED).body(cadTratamentoSilviculturalSalva);
 	}
-
+	
+  
 	@GetMapping("/{cdTratamento}")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_CadTratamentoSilvicultural') and #oauth2.hasScope('read')")
     public ResponseEntity<CadTratamentoSilvicultural> TratamentoSilvicultural_Buscar_Pelo_Id(@PathVariable Long cdTratamento){

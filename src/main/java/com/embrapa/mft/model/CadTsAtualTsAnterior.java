@@ -8,6 +8,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "r35_ts_atual_ts_anterior")
@@ -24,7 +27,17 @@ public class CadTsAtualTsAnterior {
 	
 	@ManyToOne
 	@JoinColumn(name = "r35_cdtratamentoatual", referencedColumnName = "d36_cdtratamento")
-	private CadTratamentoSilvicultural cdtratamentoatual;
+	private CadTratamentoSilvicultural cdTratamentotual;
+	
+
+
+	public CadTratamentoSilvicultural getCdTratamentotual() {
+		return cdTratamentotual;
+	}
+
+	public void setCdTratamentotual(CadTratamentoSilvicultural cdTratamentotual) {
+		this.cdTratamentotual = cdTratamentotual;
+	}
 
 	public long getCdTratamentAnterior() {
 		return cdTratamentAnterior;
@@ -34,7 +47,6 @@ public class CadTsAtualTsAnterior {
 		this.cdTratamentAnterior = cdTratamentAnterior;
 	}
 
-
 	public CadEmpresa getCdEmpresa() {
 		return cdEmpresa;
 	}
@@ -43,15 +55,6 @@ public class CadTsAtualTsAnterior {
 		this.cdEmpresa = cdEmpresa;
 	}
 
-	
-
-	public CadTratamentoSilvicultural getR35_cdtratamentoatual() {
-		return cdtratamentoatual;
-	}
-
-	public void setR35_cdtratamentoatual(CadTratamentoSilvicultural cdtratamentoatual) {
-		this.cdtratamentoatual = cdtratamentoatual;
-	}
 
 	@Override
 	public int hashCode() {
@@ -74,6 +77,7 @@ public class CadTsAtualTsAnterior {
 			return false;
 		return true;
 	}
+
 	
 
 }

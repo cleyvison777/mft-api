@@ -7,7 +7,7 @@ public class CadTsAtualTsAnteriorFilter {
 
 	private long cdTratamentAnterior;
 	private CadEmpresa cdEmpresa;
-	private CadTratamentoSilvicultural cdtratamentoatual;
+	private CadTratamentoSilvicultural cdTratamentotual;
 
 	public CadEmpresa getCdEmpresa() {
 		return cdEmpresa;
@@ -25,15 +25,13 @@ public class CadTsAtualTsAnteriorFilter {
 		this.cdTratamentAnterior = cdTratamentAnterior;
 	}
 
-	public CadTratamentoSilvicultural getCdtratamentoatual() {
-		return cdtratamentoatual;
+	public CadTratamentoSilvicultural getCdTratamentotual() {
+		return cdTratamentotual;
 	}
 
-	public void setCdtratamentoatual(CadTratamentoSilvicultural cdtratamentoatual) {
-		this.cdtratamentoatual = cdtratamentoatual;
+	public void setCdTratamentotual(CadTratamentoSilvicultural cdTratamentotual) {
+		this.cdTratamentotual = cdTratamentotual;
 	}
-	
-	
-	
+
 	
 }

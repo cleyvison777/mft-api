@@ -72,9 +72,14 @@ public class CadTsAtualTsAnteriorRepositoryImpl implements CadTsAtualTsAnteriorR
 			predicates.add(builder.equal(root.get(CadTsAtualTsAnterior_.cdTratamentAnterior), cadTsAtualTsAnteriorFilter.getCdTratamentAnterior()));
 		}
 		
+		if (cadTsAtualTsAnteriorFilter.getCdTratamentotual() != null) {
+			predicates.add(builder.equal(root.get(CadTsAtualTsAnterior_.cdTratamentotual), cadTsAtualTsAnteriorFilter.getCdTratamentotual()));
+		}
+		
 		if(cadTsAtualTsAnteriorFilter.getCdEmpresa() != null){
 				predicates.add(builder.equal(root.get(CadTsAtualTsAnterior_.cdEmpresa), cadTsAtualTsAnteriorFilter.getCdEmpresa()));
 			}
+		
 		
 		return predicates.toArray(new Predicate[predicates.size()]) ;
 	}
