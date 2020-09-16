@@ -18,12 +18,16 @@ public class CadTsAtualTsAnterior {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "r35_cdtratamentoanterior")
-	private long cdTratamentAnterior;
+    @Column(name = "r35_cdtratamentoanteriorPK")
+	private long cdTratamentoAnteriorPk;
 	
 	@ManyToOne
 	@JoinColumn(name = "r35_cdempresa")
 	private CadEmpresa cdEmpresa;
+	
+	@ManyToOne
+	@JoinColumn(name = "r35_cdtratamentoanterior", referencedColumnName = "d36_cdtratamento")
+	private CadTratamentoSilvicultural cdTratamentoAnterior;
 	
 	@ManyToOne
 	@JoinColumn(name = "r35_cdtratamentoatual", referencedColumnName = "d36_cdtratamento")
@@ -38,13 +42,25 @@ public class CadTsAtualTsAnterior {
 	public void setCdTratamentotual(CadTratamentoSilvicultural cdTratamentotual) {
 		this.cdTratamentotual = cdTratamentotual;
 	}
+	
 
-	public long getCdTratamentAnterior() {
-		return cdTratamentAnterior;
+	
+
+	public CadTratamentoSilvicultural getCdTratamentoAnterior() {
+		return cdTratamentoAnterior;
 	}
 
-	public void setCdTratamentAnterior(long cdTratamentAnterior) {
-		this.cdTratamentAnterior = cdTratamentAnterior;
+	public void setCdTratamentoAnterior(CadTratamentoSilvicultural cdTratamentoAnterior) {
+		this.cdTratamentoAnterior = cdTratamentoAnterior;
+	}
+
+
+	public long getCdTratamentoAnteriorPk() {
+		return cdTratamentoAnteriorPk;
+	}
+
+	public void setCdTratamentoAnteriorPk(long cdTratamentoAnteriorPk) {
+		this.cdTratamentoAnteriorPk = cdTratamentoAnteriorPk;
 	}
 
 	public CadEmpresa getCdEmpresa() {
@@ -55,12 +71,11 @@ public class CadTsAtualTsAnterior {
 		this.cdEmpresa = cdEmpresa;
 	}
 
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + (int) (cdTratamentAnterior ^ (cdTratamentAnterior >>> 32));
+		result = prime * result + (int) (cdTratamentoAnteriorPk ^ (cdTratamentoAnteriorPk >>> 32));
 		return result;
 	}
 
@@ -73,10 +88,12 @@ public class CadTsAtualTsAnterior {
 		if (getClass() != obj.getClass())
 			return false;
 		CadTsAtualTsAnterior other = (CadTsAtualTsAnterior) obj;
-		if (cdTratamentAnterior != other.cdTratamentAnterior)
+		if (cdTratamentoAnteriorPk != other.cdTratamentoAnteriorPk)
 			return false;
 		return true;
 	}
+
+
 
 	
 

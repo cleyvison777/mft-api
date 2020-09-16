@@ -14,7 +14,6 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.util.StringUtils;
 
 import com.embrapa.mft.model.CadTsAtualTsAnterior;
 import com.embrapa.mft.model.CadTsAtualTsAnterior_;
@@ -68,8 +67,8 @@ public class CadTsAtualTsAnteriorRepositoryImpl implements CadTsAtualTsAnteriorR
 		
 		List<Predicate> predicates = new ArrayList<>();
 		
-		if (cadTsAtualTsAnteriorFilter.getCdTratamentAnterior() != 0) {
-			predicates.add(builder.equal(root.get(CadTsAtualTsAnterior_.cdTratamentAnterior), cadTsAtualTsAnteriorFilter.getCdTratamentAnterior()));
+		if (cadTsAtualTsAnteriorFilter.getCdTratamentoAnteriorPk() != 0) {
+			predicates.add(builder.equal(root.get(CadTsAtualTsAnterior_.cdTratamentoAnteriorPk), cadTsAtualTsAnteriorFilter.getCdTratamentoAnteriorPk()));
 		}
 		
 		if (cadTsAtualTsAnteriorFilter.getCdTratamentotual() != null) {
@@ -79,6 +78,9 @@ public class CadTsAtualTsAnteriorRepositoryImpl implements CadTsAtualTsAnteriorR
 		if(cadTsAtualTsAnteriorFilter.getCdEmpresa() != null){
 				predicates.add(builder.equal(root.get(CadTsAtualTsAnterior_.cdEmpresa), cadTsAtualTsAnteriorFilter.getCdEmpresa()));
 			}
+		if(cadTsAtualTsAnteriorFilter.getCdTratamentoAnterior()!= null) {
+			predicates.add(builder.equal(root.get(CadTsAtualTsAnterior_.cdTratamentoAnterior), cadTsAtualTsAnteriorFilter.getCdTratamentoAnterior()));
+		}
 		
 		
 		return predicates.toArray(new Predicate[predicates.size()]) ;

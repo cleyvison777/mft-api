@@ -57,24 +57,24 @@ public class CadTsAtualTsAnteriorResource {
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_TS') and #oauth2.hasScope('write')")
     	public ResponseEntity<CadTsAtualTsAnterior> criar(@RequestBody CadTsAtualTsAnterior cadTsAtualTsAnterior, HttpServletResponse response){
 		 CadTsAtualTsAnterior cadTsAtualTsAnteriorSalva = cadTsAtualTsAnteriorRepository.save(cadTsAtualTsAnterior);
-		  eventPublisher.publishEvent(new RecursoCriadoEvent(this, response, cadTsAtualTsAnteriorSalva.getCdTratamentAnterior()));
+		  eventPublisher.publishEvent(new RecursoCriadoEvent(this, response, cadTsAtualTsAnteriorSalva.getCdTratamentoAnteriorPk()));
 		  
 		  return ResponseEntity.status(HttpStatus.CREATED).body(cadTsAtualTsAnteriorSalva);
 	}
 	
 	
-	@DeleteMapping("/{cdTratamentAnterior}")
+	@DeleteMapping("/{cdTratamentoAnteriorPk}")
 	@PreAuthorize("hasAuthority('ROLE_DELETAR_TS') and #oauth2.hasScope('write')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable Long cdTratamentAnterior) {
-		cadTsAtualTsAnteriorRepository.delete(cdTratamentAnterior);
+    public void remover(@PathVariable Long cdTratamentoAnteriorPk) {
+		cadTsAtualTsAnteriorRepository.delete(cdTratamentoAnteriorPk);
 	}
 	
 	
-	@PutMapping("/{cdTratamentAnterior}")
+	@PutMapping("/{cdTratamentoAnteriorPk}")
 	@PreAuthorize("hasAuthority('ROLE_ATUALIZAR_TS') and #oauth2.hasScope('write')")
-	 public ResponseEntity<CadTsAtualTsAnterior> atualizar(@PathVariable Long cdTratamentAnterior, @Valid @RequestBody CadTsAtualTsAnterior cadTsAtualTsAnterior){
-		 CadTsAtualTsAnterior cadTsAtualTsAnteriorSalva = cadTsAtualTsAnteriorService.atualizar(cdTratamentAnterior, cadTsAtualTsAnterior);
+	 public ResponseEntity<CadTsAtualTsAnterior> atualizar(@PathVariable Long cdTratamentoAnteriorPk, @Valid @RequestBody CadTsAtualTsAnterior cadTsAtualTsAnterior){
+		 CadTsAtualTsAnterior cadTsAtualTsAnteriorSalva = cadTsAtualTsAnteriorService.atualizar(cdTratamentoAnteriorPk, cadTsAtualTsAnterior);
 		  return ResponseEntity.ok(cadTsAtualTsAnteriorSalva);
 	}
 }

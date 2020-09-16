@@ -5,10 +5,12 @@ import com.embrapa.mft.model.CadTratamentoSilvicultural;
 
 public class CadTsAtualTsAnteriorFilter {
 
-	private long cdTratamentAnterior;
+	private CadTratamentoSilvicultural cdTratamentoAnterior;
+	private long cdTratamentoAnteriorPk;
 	private CadEmpresa cdEmpresa;
 	private CadTratamentoSilvicultural cdTratamentotual;
 
+	
 	public CadEmpresa getCdEmpresa() {
 		return cdEmpresa;
 	}
@@ -17,12 +19,22 @@ public class CadTsAtualTsAnteriorFilter {
 		this.cdEmpresa = cdEmpresa;
 	}
 
-	public long getCdTratamentAnterior() {
-		return cdTratamentAnterior;
+
+	public long getCdTratamentoAnteriorPk() {
+		return cdTratamentoAnteriorPk;
 	}
 
-	public void setCdTratamentAnterior(long cdTratamentAnterior) {
-		this.cdTratamentAnterior = cdTratamentAnterior;
+	public void setCdTratamentoAnteriorPk(long cdTratamentoAnteriorPk) {
+		this.cdTratamentoAnteriorPk = cdTratamentoAnteriorPk;
+	}
+
+
+	public CadTratamentoSilvicultural getCdTratamentoAnterior() {
+		return cdTratamentoAnterior;
+	}
+
+	public void setCdTratamentoAnterior(CadTratamentoSilvicultural cdTratamentoAnterior) {
+		this.cdTratamentoAnterior = cdTratamentoAnterior;
 	}
 
 	public CadTratamentoSilvicultural getCdTratamentotual() {
