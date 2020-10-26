@@ -4,7 +4,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties("mftapi")
 public class MftApiProperty {
-	private String originPermitida = "http://frontmft.000webhostapp.com";
+	//private String originPermitida = "http://frontmft.000webhostapp.com";
+	private String originPermitida = "http://localhost:4200";
 	private final Seguranca seguranca = new Seguranca();
 	
 	
