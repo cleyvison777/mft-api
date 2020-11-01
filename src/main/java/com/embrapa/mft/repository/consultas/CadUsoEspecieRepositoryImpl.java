@@ -20,6 +20,8 @@ import com.embrapa.mft.model.UsoEspecie;
 import com.embrapa.mft.model.UsoEspecie_;
 import com.embrapa.mft.repository.filter.CadUsoEspecieFilter;
 
+import br.embrapa.model.CadMaterial_;
+
 public class CadUsoEspecieRepositoryImpl  implements  CadUsoEspecieRepositoryQuery {
 
 	@PersistenceContext
@@ -69,6 +71,10 @@ public class CadUsoEspecieRepositoryImpl  implements  CadUsoEspecieRepositoryQue
 					 builder.lower(root.get(UsoEspecie_.nmUso)), "%" + cadUsoEspecieFilter.getNmUso()
 			 .toLowerCase() + "%"));
 		 }
+		 if (cadUsoEspecieFilter.getCdEmpresa() != null) {
+				predicates.add(
+						builder.equal(root.get(UsoEspecie_.cdEmpresa), cadUsoEspecieFilter.getCdEmpresa()));
+			}
 		return predicates.toArray( new Predicate[predicates.size()]);
 		 
 	}

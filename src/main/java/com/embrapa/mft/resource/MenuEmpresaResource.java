@@ -58,11 +58,11 @@ public class MenuEmpresaResource {
 		return menuEmpresaRepository.filtrar(menuEmpresaFilter, pageable);
 	}
 	
-	@SuppressWarnings("unchecked")
+//	@SuppressWarnings("unchecked")
 	@GetMapping("/empresaselecionada")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_VERIFICADOR_M') and #oauth2.hasScope('read')")
-	public BigInteger count(Long cdTemplate) {
-		Query query = em.createNativeQuery("select cdempresa from menu_empresa where id = (select max(id) from menu_empresa);");
+	public BigInteger count() {
+		Query query = em.createNativeQuery("select cdempresa from menu_empresa where id_menu_empresa = (select max(id_menu_empresa) from menu_empresa)");
 		BigInteger result = (BigInteger) query.getSingleResult();
 		return result;
 	}
@@ -71,7 +71,7 @@ public class MenuEmpresaResource {
 	@GetMapping("/empresaselecionadanome")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_VERIFICADOR_M') and #oauth2.hasScope('read')")
 	public String nomeEmpresa(Long cdTemplate) {
-		Query query = em.createNativeQuery("select d24_nmempresa from d24_empresa where d24_cdempresa = (select cdempresa from menu_empresa where id = (select max(id) from menu_empresa));");
+		Query query = em.createNativeQuery("select d13_nmempresa from d13_empresa where d13_cdempresa = (select cdempresa from menu_empresa where id_menu_empresa = (select max(id_menu_empresa) from menu_empresa))");
 		String result = (String) query.getSingleResult();
 		return result;
 	}
