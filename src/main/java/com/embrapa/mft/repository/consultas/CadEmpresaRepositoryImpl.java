@@ -54,7 +54,7 @@ public class CadEmpresaRepositoryImpl implements CadEmpresaRepositoryQuery {
 
 	private void adiconarRestricoesDePaginacao(TypedQuery<?> query, Pageable pageable) {
 		int paginaAtual = pageable.getPageNumber();
-		int totalDeRegistrosPorPagina = pageable.getPageSize();
+		int totalDeRegistrosPorPagina = 100;
 		int primeiroRegistroDaPagina = paginaAtual * totalDeRegistrosPorPagina;
 		
 		query.setFirstResult(primeiroRegistroDaPagina);

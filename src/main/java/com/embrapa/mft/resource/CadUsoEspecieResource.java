@@ -1,9 +1,16 @@
 package com.embrapa.mft.resource;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.hibernate.hql.internal.ast.tree.Statement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -30,6 +37,9 @@ import com.embrapa.mft.service.cadUsoEspecieService;
 @RequestMapping("/usoespecie")
 public class CadUsoEspecieResource {
 
+	//@PersistenceContext
+	//private EntityManager em;
+	
 	@Autowired
 	private cadUsoEspecieService usoEspecieService;
 	
@@ -49,8 +59,14 @@ public class CadUsoEspecieResource {
 	 @PreAuthorize("hasAuthority('ROLE_CADASTRAR_usoEspecie') and #oauth2.hasScope('write')")
 	 public ResponseEntity<UsoEspecie> criar (@RequestBody UsoEspecie usoEspecie, HttpServletResponse response){
 		 UsoEspecie usoEspecieSalva = mftUsoEspecieRepository.save(usoEspecie);
-		  eventPublisher.publishEvent(new RecursoCriadoEvent(this, response, usoEspecieSalva.getCdUso()));
+		 eventPublisher.publishEvent(new RecursoCriadoEvent(this, response, usoEspecieSalva.getCdUso()));
 		    return ResponseEntity.status(HttpStatus.CREATED).body(usoEspecieSalva);
+		    
+	 }
+	 public ResponseEntity<UsoEspecie> criar2 (UsoEspecie usoEspecie){
+		 UsoEspecie usoEspecieSalva = mftUsoEspecieRepository.save(usoEspecie);
+		// eventPublisher.publishEvent(new RecursoCriadoEvent(this, response, usoEspecieSalva.getCdUso()));
+		    return null;
 		    
 	 }
 	 
@@ -76,6 +92,9 @@ public class CadUsoEspecieResource {
 		    return ResponseEntity.ok(usoEspecieSalva);
 		
 	 }
+	 
+		 
+		
 	 
 	 
 }

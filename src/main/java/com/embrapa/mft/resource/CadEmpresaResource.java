@@ -1,5 +1,9 @@
 package com.embrapa.mft.resource;
 
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -22,7 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.embrapa.mft.event.RecursoCriadoEvent;
 import com.embrapa.mft.model.CadEmpresa;
+import com.embrapa.mft.model.UsoEspecie;
 import com.embrapa.mft.repository.CadEmpresaRepository;
+import com.embrapa.mft.repository.CadUsoEspecieRepository;
 import com.embrapa.mft.repository.filter.CadEmpresaFilter;
 import com.embrapa.mft.service.CadEmpresaService;
 
@@ -54,6 +60,9 @@ public class CadEmpresaResource {
 		CadEmpresa cadEmpresaSalva = cadEmpresaRepository.save(cadEmpresa);
 		
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, cadEmpresaSalva.getCdEmpresa()));
+		CadUsoEspecieResource c = new CadUsoEspecieResource();
+		populaUsoEspecie(cadEmpresaSalva.getCdEmpresa());
+		System.out.println("Teste: " + cadEmpresaSalva.getCdEmpresa());
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(cadEmpresaSalva);
 	}
@@ -79,6 +88,25 @@ public class CadEmpresaResource {
 		CadEmpresa cadEmpresaSalva = cadEmpresaService.atualizar(cdEmpresa, cadEmpresa);
 		return ResponseEntity.ok(cadEmpresaSalva);
 	}
+	
+	@Autowired
+    private CadUsoEspecieRepository mftUsoEspecieRepository;
+	
+	public void populaUsoEspecie(Long cdEmpresa) {
+	    try {
+	    	System.out.println(cdEmpresa);
+			 List<UsoEspecie> resultado = mftUsoEspecieRepository.listarDadosPadrao();
+			 for(UsoEspecie usoEspecie: resultado) {  
+				 mftUsoEspecieRepository.inserirDadosPadrao(cdEmpresa, usoEspecie.getNmUso(), usoEspecie.getLgMadeira());
+				 System.out.println("Salvo: " + usoEspecie.getNmUso());
+			 }
+			 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+				
+	 }
+	
 	
 	
 

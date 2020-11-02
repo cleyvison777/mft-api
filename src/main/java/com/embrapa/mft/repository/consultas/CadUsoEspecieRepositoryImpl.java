@@ -20,7 +20,6 @@ import com.embrapa.mft.model.UsoEspecie;
 import com.embrapa.mft.model.UsoEspecie_;
 import com.embrapa.mft.repository.filter.CadUsoEspecieFilter;
 
-import br.embrapa.model.CadMaterial_;
 
 public class CadUsoEspecieRepositoryImpl  implements  CadUsoEspecieRepositoryQuery {
 
