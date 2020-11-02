@@ -58,11 +58,9 @@ public class CadEmpresaResource {
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_EMPRESA') and #oauth2.hasScope('write')")
 	public ResponseEntity<CadEmpresa> criar(@RequestBody CadEmpresa cadEmpresa, HttpServletResponse response) {
 		CadEmpresa cadEmpresaSalva = cadEmpresaRepository.save(cadEmpresa);
-		
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, cadEmpresaSalva.getCdEmpresa()));
-		CadUsoEspecieResource c = new CadUsoEspecieResource();
-		populaUsoEspecie(cadEmpresaSalva.getCdEmpresa());
-		System.out.println("Teste: " + cadEmpresaSalva.getCdEmpresa());
+				
+		populaUsoEspecie(cadEmpresaSalva.getCdEmpresa());		
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(cadEmpresaSalva);
 	}
@@ -98,7 +96,6 @@ public class CadEmpresaResource {
 			 List<UsoEspecie> resultado = mftUsoEspecieRepository.listarDadosPadrao();
 			 for(UsoEspecie usoEspecie: resultado) {  
 				 mftUsoEspecieRepository.inserirDadosPadrao(cdEmpresa, usoEspecie.getNmUso(), usoEspecie.getLgMadeira());
-				 System.out.println("Salvo: " + usoEspecie.getNmUso());
 			 }
 			 
 		} catch (Exception e) {

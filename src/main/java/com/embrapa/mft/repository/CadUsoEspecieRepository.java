@@ -19,14 +19,11 @@ public interface CadUsoEspecieRepository extends JpaRepository<UsoEspecie, Long>
 		   nativeQuery = true)
 	List<UsoEspecie> listarDadosPadrao();
 	
-	//@Autowired
 	@Transactional
 	@Modifying
-	@Query(value = 
-"INSERT INTO d07_uso_especie(d07_cdempresa, d07_nmuso, d07_lgmadeira) VALUES (:cdempresa, :nmuso, :lgmadeira)", 
+	@Query(value ="INSERT INTO d07_uso_especie(d07_cdempresa, d07_nmuso, d07_lgmadeira) VALUES (:cdempresa, :nmuso, :lgmadeira)", 
 			   nativeQuery = true)
 	void inserirDadosPadrao(@Param("cdempresa") Long cdempresa,
 			@Param("nmuso") String nmuso, @Param("lgmadeira") String lgmadeira);
 	
-	
-}
+   }
