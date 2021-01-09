@@ -9,9 +9,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name= "d01_familia")
 public class CadFamilia {
+	
+	
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
-
 @Column (name= "d01_cdfamilia")
 private long cdFamilia;
 
