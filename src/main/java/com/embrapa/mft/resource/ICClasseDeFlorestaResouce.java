@@ -1,6 +1,11 @@
 package com.embrapa.mft.resource;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+
 import javax.servlet.http.HttpServletResponse;
+import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +36,7 @@ import com.embrapa.mft.service.ICClasseDeFlorestaService;
 public class ICClasseDeFlorestaResouce {
 	
 	@Autowired
-	private ICClasseDeFlorestaRepository cadListaEspecieRepository;
+	private ICClasseDeFlorestaRepository iCClasseDeFlorestaRepository;
 	
 	@Autowired
 	private ICClasseDeFlorestaService iCClasseDeFlorestaService;
@@ -42,37 +48,49 @@ public class ICClasseDeFlorestaResouce {
     @GetMapping
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_ESPECIE') and #oauth2.hasScope('read')")
 	public Page<ICClasseDeFloresta> pesquisar(ICClasseDeFlorestaFilter iCClasseDeFlorestaFilter, Pageable pageable){ 
-    	return cadListaEspecieRepository.filtrar(iCClasseDeFlorestaFilter, pageable); 
+    	return iCClasseDeFlorestaRepository.filtrar(iCClasseDeFlorestaFilter, pageable); 
     }
 	
 	
 	@PostMapping
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_ESPECIE') and #oauth2.hasScope('write')")
 	 public ResponseEntity<ICClasseDeFloresta> criar(@RequestBody ICClasseDeFloresta iCClasseDeFloresta, HttpServletResponse response){
-		ICClasseDeFloresta iCClasseDeFlorestaSalva = cadListaEspecieRepository.save(iCClasseDeFloresta);
+		ICClasseDeFloresta iCClasseDeFlorestaSalva = iCClasseDeFlorestaRepository.save(iCClasseDeFloresta);
 		   publisher.publishEvent(new RecursoCriadoEvent(this, response, iCClasseDeFlorestaSalva.getCdClassefloresta()));
 		            return ResponseEntity.status(HttpStatus.CREATED).body(iCClasseDeFlorestaSalva);
+	}
+	
+	@PostMapping("anexarimagem")
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_ESPECIE') and #oauth2.hasScope('write')")
+	public String upLoadImagem(@RequestParam MultipartFile anexo, ICClasseDeFloresta cdClassefloresta) throws IOException {
+		OutputStream out = new FileOutputStream("src/main/resources/imagens/" + anexo.getOriginalFilename());
+		String url = "src/main/resources/imagens/" + anexo.getOriginalFilename().toString();
+		iCClasseDeFlorestaRepository.atualizarUrlImagem(cdClassefloresta, url);
+		out.write(anexo.getBytes());
+		out.close();
+		return "OK";
 	}
 
 	@GetMapping("/{d05_lista_especie}")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_ESPECIE') and #oauth2.hasScope('read')")
 	public ResponseEntity<ICClasseDeFloresta> ListaEspecie_Buscar_Pelo_Id(@PathVariable Long d05_lista_especie) {
-		ICClasseDeFloresta iCClasseDeFloresta = cadListaEspecieRepository.findOne(d05_lista_especie);
+		ICClasseDeFloresta iCClasseDeFloresta = iCClasseDeFlorestaRepository.findOne(d05_lista_especie);
 		 return iCClasseDeFloresta != null ? ResponseEntity.ok(iCClasseDeFloresta) : ResponseEntity.notFound().build();
 	}
 	
-	@DeleteMapping("/{cadListaEspecie}")
+	@DeleteMapping("/{cdClassefloresta}")
 	@PreAuthorize("hasAuthority('ROLE_REMOVER_ESPECIE') and #oauth2.hasScope('write')")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	 public void Remover(@PathVariable Long cadListaEspecie) {
-		cadListaEspecieRepository.delete(cadListaEspecie);
+	 public void Remover(@PathVariable Long cdClassefloresta) {
+		iCClasseDeFlorestaRepository.delete(cdClassefloresta);
 	}
 	
 	
-	@PutMapping("/{cadListaEspecie}")
+	@PutMapping("/{cdClassefloresta}")
 	@PreAuthorize("hasAuthority('ROLE_ATUALIZAR_ESPECIE') and #oauth2.hasScope('write')")
-	public ResponseEntity<ICClasseDeFloresta> atualizar(@PathVariable Long codigo, @Valid @RequestBody ICClasseDeFloresta iCClasseDeFloresta){
-		 ICClasseDeFloresta iCClasseDeFlorestaSalva = iCClasseDeFlorestaService.atualizar(codigo, iCClasseDeFloresta);
+	public ResponseEntity<ICClasseDeFloresta> atualizar(@PathVariable Long cdClassefloresta, @Valid @RequestBody ICClasseDeFloresta iCClasseDeFloresta){
+		 
+		ICClasseDeFloresta iCClasseDeFlorestaSalva = iCClasseDeFlorestaService.atualizar(cdClassefloresta, iCClasseDeFloresta);
 		   return ResponseEntity.ok(iCClasseDeFlorestaSalva);
 		   
 	}
