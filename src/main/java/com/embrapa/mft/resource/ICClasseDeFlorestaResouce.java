@@ -63,11 +63,13 @@ public class ICClasseDeFlorestaResouce {
 	@PostMapping("anexarimagem")
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_ESPECIE') and #oauth2.hasScope('write')")
 	public String upLoadImagem(@RequestParam MultipartFile anexo, ICClasseDeFloresta cdClassefloresta) throws IOException {
-		OutputStream out = new FileOutputStream("src/main/resources/imagens/" + anexo.getOriginalFilename());
-		String url = "src/main/resources/imagens/" + anexo.getOriginalFilename().toString();
-		iCClasseDeFlorestaRepository.atualizarUrlImagem(cdClassefloresta, url);
+		String id = Long.toString(cdClassefloresta.getCdClassefloresta());
+		OutputStream out = new FileOutputStream("G://Documentos/Projetos/Embrapa/mft-ui-1.2/src/assets/imgclaflo/" + "img"+"cdClassefloresta"+id+".jpg"); // AJUSTAR AQUI		
+		String url = "../assets/imgclaflo/" + "img"+"cdClassefloresta"+id+".jpg"; // AJUSTAR AQUI 
+     	iCClasseDeFlorestaRepository.atualizarUrlImagem(cdClassefloresta, url);
 		out.write(anexo.getBytes());
 		out.close();
+		System.out.println("Anexou?");
 		return "OK";
 	}
 

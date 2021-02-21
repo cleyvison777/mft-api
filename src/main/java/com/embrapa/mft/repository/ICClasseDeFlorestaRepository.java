@@ -6,9 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.embrapa.mft.model.CadAmf;
 import com.embrapa.mft.model.ICClasseDeFloresta;
-import com.embrapa.mft.repository.consultas.CadAmfRepositoryQuery;
 import com.embrapa.mft.repository.consultas.ICClasseDeFlorestaRepositoryQuery;
 
 
