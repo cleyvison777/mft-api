@@ -16,8 +16,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
-import com.embrapa.mft.model.UsoEspecie;
-import com.embrapa.mft.model.UsoEspecie_;
+import com.embrapa.mft.model.CadUsoEspecie;
+import com.embrapa.mft.model.CadUsoEspecie_;
 import com.embrapa.mft.repository.filter.CadUsoEspecieFilter;
 
 
@@ -26,15 +26,15 @@ public class CadUsoEspecieRepositoryImpl  implements  CadUsoEspecieRepositoryQue
 	@PersistenceContext
 	private EntityManager manager;
 	@Override
-	public Page<UsoEspecie> filtrar(CadUsoEspecieFilter cadUsoEspecieFilter, Pageable pageable) {
+	public Page<CadUsoEspecie> filtrar(CadUsoEspecieFilter cadUsoEspecieFilter, Pageable pageable) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		 CriteriaQuery<UsoEspecie> criteria = builder .createQuery(UsoEspecie.class);
-		  Root<UsoEspecie> root = criteria.from(UsoEspecie.class);
+		 CriteriaQuery<CadUsoEspecie> criteria = builder .createQuery(CadUsoEspecie.class);
+		  Root<CadUsoEspecie> root = criteria.from(CadUsoEspecie.class);
 		     
 		   Predicate[] predicates = criarRestricoes(cadUsoEspecieFilter, builder, root);
 		    criteria.where(predicates);
 		    
-		     TypedQuery<UsoEspecie> query = manager.createQuery(criteria);
+		     TypedQuery<CadUsoEspecie> query = manager.createQuery(criteria);
 		      adiconarRestricoesDePaginacao(query, pageable);
 		        return new PageImpl<>(query.getResultList(), pageable, total(cadUsoEspecieFilter));
 	}
@@ -42,7 +42,7 @@ public class CadUsoEspecieRepositoryImpl  implements  CadUsoEspecieRepositoryQue
 	 private Long total(CadUsoEspecieFilter cadUsoEspecieFilter) {
 		 CriteriaBuilder builder = manager.getCriteriaBuilder();
 		  CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
-		   Root<UsoEspecie> root = criteria.from(UsoEspecie.class);
+		   Root<CadUsoEspecie> root = criteria.from(CadUsoEspecie.class);
 		   
 		   Predicate[] predicates = criarRestricoes(cadUsoEspecieFilter, builder, root);
 		    criteria.where(predicates);
@@ -62,17 +62,17 @@ public class CadUsoEspecieRepositoryImpl  implements  CadUsoEspecieRepositoryQue
     }
       
 	private Predicate[] criarRestricoes(CadUsoEspecieFilter cadUsoEspecieFilter, CriteriaBuilder builder,
-			Root<UsoEspecie> root) {
+			Root<CadUsoEspecie> root) {
 		
 		List<Predicate> predicates = new ArrayList<>();
 		 if(!StringUtils.isEmpty(cadUsoEspecieFilter.getNmUso())) {
 			 predicates.add(builder.like(
-					 builder.lower(root.get(UsoEspecie_.nmUso)), "%" + cadUsoEspecieFilter.getNmUso()
+					 builder.lower(root.get(CadUsoEspecie_.nmUso)), "%" + cadUsoEspecieFilter.getNmUso()
 			 .toLowerCase() + "%"));
 		 }
 		 if (cadUsoEspecieFilter.getCdEmpresa() != null) {
 				predicates.add(
-						builder.equal(root.get(UsoEspecie_.cdEmpresa), cadUsoEspecieFilter.getCdEmpresa()));
+						builder.equal(root.get(CadUsoEspecie_.cdEmpresa), cadUsoEspecieFilter.getCdEmpresa()));
 			}
 		return predicates.toArray( new Predicate[predicates.size()]);
 		 

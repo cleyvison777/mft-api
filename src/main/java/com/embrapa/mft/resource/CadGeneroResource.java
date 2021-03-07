@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.embrapa.mft.event.RecursoCriadoEvent;
-import com.embrapa.mft.model.Genero;
+import com.embrapa.mft.model.CadGenero;
 import com.embrapa.mft.repository.CadGeneroRepository;
 import com.embrapa.mft.repository.filter.CadGeneroFilter;
-import com.embrapa.mft.service.GeneroService;
+import com.embrapa.mft.service.CadGeneroService;
 
 
 @RestController
@@ -33,29 +33,29 @@ public class CadGeneroResource {
 	private CadGeneroRepository  cadGeneroRepository;
 	
 	@Autowired
-	private GeneroService generoService;
+	private CadGeneroService generoService;
 	
 	@Autowired
 	private ApplicationEventPublisher EventPublisher;
 	
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_LISTAR_GENERO') and #oauth2.hasScope('write')")
-	public Page<Genero> pesquisar(CadGeneroFilter cadGeneroFilter, Pageable pageable){
+	public Page<CadGenero> pesquisar(CadGeneroFilter cadGeneroFilter, Pageable pageable){
 		return cadGeneroRepository.filtrar(cadGeneroFilter, pageable);
 	}
 
 	@PostMapping
     @PreAuthorize("hasAuthority('ROLE_CADASTRAR_GENERO') and #oauth2.hasScope('write')")
-	public ResponseEntity<Genero> criar (@RequestBody  Genero genero, HttpServletResponse response){
-		Genero generoSalva = cadGeneroRepository.save(genero);
+	public ResponseEntity<CadGenero> criar (@RequestBody  CadGenero genero, HttpServletResponse response){
+		CadGenero generoSalva = cadGeneroRepository.save(genero);
 		 EventPublisher.publishEvent(new RecursoCriadoEvent(this, response, generoSalva.getCdGenero()));
 	           return ResponseEntity.status(HttpStatus.CREATED).body(generoSalva);
           }
 	   // Buscar_culuna_especifica
 	@GetMapping("/{cdgenero}")
     @PreAuthorize("hasAuthority('ROLE_PESQUISAR_GENERO') and #oauth2.hasScope('read')")
-	   public ResponseEntity<Genero> buscar_Genero_peloId(@PathVariable Long cdgenero) {
-		  Genero genero = cadGeneroRepository.findOne(cdgenero);	
+	   public ResponseEntity<CadGenero> buscar_Genero_peloId(@PathVariable Long cdgenero) {
+		  CadGenero genero = cadGeneroRepository.findOne(cdgenero);	
 	        return genero != null ? ResponseEntity.ok(genero) : ResponseEntity.notFound().build();
 	
       }
@@ -70,8 +70,8 @@ public class CadGeneroResource {
     // Inserir_dados_na_tabela
 	@PutMapping("/{cdGenero}")
     @PreAuthorize("hasAuthority('ROLE_CADASTRAR_GENERO') and #oauth2.hasScope('write')")
-	public ResponseEntity<Genero> atualizar (@PathVariable Long cdGenero, @Valid @RequestBody Genero genero){
-		Genero generoSalva = generoService.atualizar(cdGenero, genero);
+	public ResponseEntity<CadGenero> atualizar (@PathVariable Long cdGenero, @Valid @RequestBody CadGenero genero){
+		CadGenero generoSalva = generoService.atualizar(cdGenero, genero);
 		   return ResponseEntity.ok(generoSalva);
 	}
 	

@@ -69,7 +69,6 @@ public class ICClasseDeFlorestaResouce {
      	iCClasseDeFlorestaRepository.atualizarUrlImagem(cdClassefloresta, url);
 		out.write(anexo.getBytes());
 		out.close();
-		System.out.println("Anexou?");
 		return "OK";
 	}
 

@@ -10,7 +10,6 @@ import javax.persistence.Query;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
-import org.hibernate.hql.internal.ast.tree.Statement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
@@ -28,21 +27,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import com.embrapa.mft.event.RecursoCriadoEvent;
-import com.embrapa.mft.model.UsoEspecie;
+import com.embrapa.mft.model.CadUsoEspecie;
 import com.embrapa.mft.repository.CadUsoEspecieRepository;
 import com.embrapa.mft.repository.filter.CadUsoEspecieFilter;
-import com.embrapa.mft.service.cadUsoEspecieService;
+import com.embrapa.mft.service.CadUsoEspecieService;
 
 @RestController
 @RequestMapping("/usoespecie")
 public class CadUsoEspecieResource {
 
-	//@PersistenceContext
-	//private EntityManager em;
-	
 	@Autowired
-	private cadUsoEspecieService usoEspecieService;
-	
+	private CadUsoEspecieService usoEspecieService;
 	@Autowired
 	private ApplicationEventPublisher eventPublisher;
 	
@@ -51,20 +46,20 @@ public class CadUsoEspecieResource {
 	
 	 @GetMapping
 	 @PreAuthorize("hasAuthority('ROLE_PESQUISAR_USOESPECIE') and #oauth2.hasScope('read')")
-	public Page<UsoEspecie> pesquisar(CadUsoEspecieFilter cadUsoEspecieFilter, Pageable pageable){
+	public Page<CadUsoEspecie> pesquisar(CadUsoEspecieFilter cadUsoEspecieFilter, Pageable pageable){
 		 return mftUsoEspecieRepository.filtrar(cadUsoEspecieFilter, pageable);
 	 }
 	
 	 @PostMapping
 	 @PreAuthorize("hasAuthority('ROLE_CADASTRAR_usoEspecie') and #oauth2.hasScope('write')")
-	 public ResponseEntity<UsoEspecie> criar (@RequestBody UsoEspecie usoEspecie, HttpServletResponse response){
-		 UsoEspecie usoEspecieSalva = mftUsoEspecieRepository.save(usoEspecie);
+	 public ResponseEntity<CadUsoEspecie> criar (@RequestBody CadUsoEspecie usoEspecie, HttpServletResponse response){
+		 CadUsoEspecie usoEspecieSalva = mftUsoEspecieRepository.save(usoEspecie);
 		 eventPublisher.publishEvent(new RecursoCriadoEvent(this, response, usoEspecieSalva.getCdUso()));
 		    return ResponseEntity.status(HttpStatus.CREATED).body(usoEspecieSalva);
 		    
 	 }
-	 public ResponseEntity<UsoEspecie> criar2 (UsoEspecie usoEspecie){
-		 UsoEspecie usoEspecieSalva = mftUsoEspecieRepository.save(usoEspecie);
+	 public ResponseEntity<CadUsoEspecie> criar2 (CadUsoEspecie usoEspecie){
+		 CadUsoEspecie usoEspecieSalva = mftUsoEspecieRepository.save(usoEspecie);
 		// eventPublisher.publishEvent(new RecursoCriadoEvent(this, response, usoEspecieSalva.getCdUso()));
 		    return null;
 		    
@@ -72,8 +67,8 @@ public class CadUsoEspecieResource {
 	 
 	 @GetMapping("/{cduso}")
 	 @PreAuthorize("hasAuthority('ROLE_PESQUISAR_usoEspecie') and #oauth2.hasScope('read')")
-	  public ResponseEntity<UsoEspecie> Buscar_UsoEspecie_peloId(@PathVariable Long cduso) {
-		 UsoEspecie usoEspecie =  mftUsoEspecieRepository.findOne(cduso);
+	  public ResponseEntity<CadUsoEspecie> Buscar_UsoEspecie_peloId(@PathVariable Long cduso) {
+		 CadUsoEspecie usoEspecie =  mftUsoEspecieRepository.findOne(cduso);
 		  return usoEspecie != null ? ResponseEntity.ok(usoEspecie) : ResponseEntity.notFound().build();
 		 
 	 }
@@ -87,11 +82,25 @@ public class CadUsoEspecieResource {
 	 
 	 @PutMapping("/{cduso}")
 	 @PreAuthorize("hasAuthority('ROLE_CADASTRAR_usoEspecie') and #oauth2.hasScope('write')")
-	 public ResponseEntity<UsoEspecie> atualizar(@PathVariable Long cduso, @Valid @RequestBody UsoEspecie usoEspecie){
-		   UsoEspecie usoEspecieSalva = usoEspecieService.atualizar(cduso, usoEspecie);
-		    return ResponseEntity.ok(usoEspecieSalva);
+	 public ResponseEntity<CadUsoEspecie> atualizar(@PathVariable Long cduso, @Valid @RequestBody CadUsoEspecie usoEspecie){
+		   CadUsoEspecie usoEspecieSalva = usoEspecieService.atualizar(cduso, usoEspecie);
+		   return ResponseEntity.ok(usoEspecieSalva);
 		
 	 }
+	 
+	 public void populaUsoEspecie(Long cdEmpresa) {
+		    try {
+		    	System.out.println(cdEmpresa);
+				 List<CadUsoEspecie> resultado = mftUsoEspecieRepository.listarDadosPadrao();
+				 for(CadUsoEspecie usoEspecie: resultado) {  
+					 mftUsoEspecieRepository.inserirDadosPadrao(cdEmpresa, usoEspecie.getNmUso(), usoEspecie.getLgMadeira());
+				 }
+				 
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+					
+     }
 	 
 		 
 		

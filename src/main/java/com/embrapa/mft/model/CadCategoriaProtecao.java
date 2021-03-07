@@ -12,6 +12,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "d09_categoria_protecao")
 public class CadCategoriaProtecao {
+	
 	@Id
 	@GeneratedValue(strategy =  GenerationType.IDENTITY)
 	@Column(name = "d09_cdcategoriaprotecao")

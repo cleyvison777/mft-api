@@ -16,8 +16,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
-import com.embrapa.mft.model.Genero;
-import com.embrapa.mft.model.Genero_;
+import com.embrapa.mft.model.CadGenero;
+import com.embrapa.mft.model.CadGenero_;
 import com.embrapa.mft.repository.filter.CadGeneroFilter;
 
 public class CadGeneroRepositoryImpl implements CadGeneroRepositoryQuery {
@@ -26,14 +26,14 @@ public class CadGeneroRepositoryImpl implements CadGeneroRepositoryQuery {
 private EntityManager manager;
 	
 	@Override
-	public Page<Genero> filtrar(CadGeneroFilter generoFilter, Pageable pageable) {
+	public Page<CadGenero> filtrar(CadGeneroFilter generoFilter, Pageable pageable) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		CriteriaQuery<Genero> criteria = builder .createQuery(Genero.class);
-		Root<Genero> root = criteria.from(Genero.class);
+		CriteriaQuery<CadGenero> criteria = builder .createQuery(CadGenero.class);
+		Root<CadGenero> root = criteria.from(CadGenero.class);
 	    Predicate[] predicates = criarRestricoes(generoFilter, builder, root);
 	       criteria.where(predicates);
 	       
-	        TypedQuery<Genero> query = manager.createQuery(criteria);
+	        TypedQuery<CadGenero> query = manager.createQuery(criteria);
 	        adiconarRestricoesDePaginacao(query, pageable);
 	        
 	         return new PageImpl<>(query.getResultList(), pageable, total(generoFilter));
@@ -41,11 +41,11 @@ private EntityManager manager;
 	}
 	
 	private Predicate[] criarRestricoes(CadGeneroFilter generoFilter, CriteriaBuilder builder,
-			   Root<Genero> root) {
+			   Root<CadGenero> root) {
 		   List<Predicate> predicates = new ArrayList<>();
 		    if(!StringUtils.isEmpty(generoFilter.getNmGenero())) {
 		    	predicates.add(builder.like(
-		    			builder.lower(root.get(Genero_.nmGenero)), "%" + generoFilter.getNmGenero().toLowerCase() + "%"));
+		    			builder.lower(root.get(CadGenero_.nmGenero)), "%" + generoFilter.getNmGenero().toLowerCase() + "%"));
 		    } 
 		    
 		    return predicates.toArray(new Predicate[predicates.size()]);
@@ -54,7 +54,7 @@ private EntityManager manager;
 	   private Long total (CadGeneroFilter generoFilter) {
 		   CriteriaBuilder builder =  manager.getCriteriaBuilder();
 		    CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
-		     Root<Genero> root =  criteria.from(Genero.class);
+		     Root<CadGenero> root =  criteria.from(CadGenero.class);
 		    
 		     Predicate[] predicates = criarRestricoes(generoFilter, builder, root);
 		      criteria.where(predicates);

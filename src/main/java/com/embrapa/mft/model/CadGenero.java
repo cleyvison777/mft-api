@@ -13,7 +13,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="d02_genero")
 
-public class Genero {
+public class CadGenero {
  @Id
  @GeneratedValue(strategy = GenerationType.IDENTITY)
  @Column(name = "d02_cdgenero")
@@ -66,7 +66,7 @@ public boolean equals(Object obj) {
 		return false;
 	if (getClass() != obj.getClass())
 		return false;
-	Genero other = (Genero) obj;
+	CadGenero other = (CadGenero) obj;
 	if (cdGenero != other.cdGenero)
 		return false;
 	return true;

@@ -6,7 +6,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.embrapa.mft.model.CadTratamentoSilvicultural;
-import com.embrapa.mft.model.UsoEspecie;
+import com.embrapa.mft.model.CadUsoEspecie;
 import com.embrapa.mft.repository.CadTratamentoSilviculturalRepository;
 
 @Service

@@ -27,8 +27,10 @@ public class CadGrupoEcologicoRepositoryImpl  implements CadGrupoEcologicoReposi
 	
 	@Override
 	public Page<CadGrupoEcologico> filtrar(CadGrupoEcologicoFilter cadGrupoEcologicoFilter, Pageable pageable) {
+		
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 	    CriteriaQuery<CadGrupoEcologico> criteria = builder.createQuery(CadGrupoEcologico.class);
+	    
 	       Root<CadGrupoEcologico> root = criteria.from(CadGrupoEcologico.class);
 	       Predicate[] predicates = criarRestricoes(cadGrupoEcologicoFilter, builder, root);
 	        criteria.where(predicates);

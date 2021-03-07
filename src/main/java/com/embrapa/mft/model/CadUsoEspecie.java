@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "d07_uso_especie")
-public class UsoEspecie {
+public class CadUsoEspecie {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "d07_cduso")
@@ -78,7 +78,7 @@ public class UsoEspecie {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		UsoEspecie other = (UsoEspecie) obj;
+		CadUsoEspecie other = (CadUsoEspecie) obj;
 		if (cdUso != other.cdUso)
 			return false;
 		return true;

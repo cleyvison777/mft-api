@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.embrapa.mft.event.RecursoCriadoEvent;
 import com.embrapa.mft.model.CadEmpresa;
-import com.embrapa.mft.model.UsoEspecie;
+import com.embrapa.mft.model.CadUsoEspecie;
 import com.embrapa.mft.repository.CadEmpresaRepository;
 import com.embrapa.mft.repository.CadUsoEspecieRepository;
 import com.embrapa.mft.repository.filter.CadEmpresaFilter;
@@ -42,6 +42,9 @@ public class CadEmpresaResource {
 
 	@Autowired
 	private CadEmpresaService cadEmpresaService;
+	
+	@Autowired
+	private CadUsoEspecieResource cadUsoEspecieResource; 
 	
 	
 	@Autowired
@@ -60,7 +63,7 @@ public class CadEmpresaResource {
 		CadEmpresa cadEmpresaSalva = cadEmpresaRepository.save(cadEmpresa);
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, cadEmpresaSalva.getCdEmpresa()));
 				
-		populaUsoEspecie(cadEmpresaSalva.getCdEmpresa());		
+		cadUsoEspecieResource.populaUsoEspecie(cadEmpresaSalva.getCdEmpresa());	
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(cadEmpresaSalva);
 	}
@@ -87,22 +90,6 @@ public class CadEmpresaResource {
 		return ResponseEntity.ok(cadEmpresaSalva);
 	}
 	
-	@Autowired
-    private CadUsoEspecieRepository mftUsoEspecieRepository;
-	
-	public void populaUsoEspecie(Long cdEmpresa) {
-	    try {
-	    	System.out.println(cdEmpresa);
-			 List<UsoEspecie> resultado = mftUsoEspecieRepository.listarDadosPadrao();
-			 for(UsoEspecie usoEspecie: resultado) {  
-				 mftUsoEspecieRepository.inserirDadosPadrao(cdEmpresa, usoEspecie.getNmUso(), usoEspecie.getLgMadeira());
-			 }
-			 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-				
-	 }
 	
 	
 	
