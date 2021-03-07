@@ -26,7 +26,7 @@ public class CadMedicao {
 	
 	@ManyToOne
 	@JoinColumn(name= "d18_cdarea")
-	private CadAmf cdArea;
+	private CadAmf cdArea; 
 	
 	@Column(name = "d18_dtiniciomedicao")
 	private Date dtInicioMedica;

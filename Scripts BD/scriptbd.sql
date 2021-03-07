@@ -1158,7 +1158,7 @@ d21_latitudeponto4orientacao VARCHAR(10),
 d21_longitudeponto4grau	Integer,	
 d21_longitudeponto4minuto	Integer,	
 d21_longitudeponto4orientacao	VARCHAR(10),	
-d21_lgtestemunha	Integer);	
+d21_lgtestemunha	boolean);	
 
 
 	
