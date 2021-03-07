@@ -14,40 +14,37 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.util.StringUtils;
 
-import com.embrapa.mft.model.CadMedicao_;
-import com.embrapa.mft.model.CadParcela;
-import com.embrapa.mft.model.CadParcela_;
-import com.embrapa.mft.repository.filter.CadParcelaFilter;
+import com.embrapa.mft.model.CadSubParcela;
+import com.embrapa.mft.model.CadSubParcela_;
+import com.embrapa.mft.repository.filter.CadSubParcelaFilter;
 
-
-public class CadParcelaRepositoryImpl implements CadParcelaRepositoryQuery{
+public class CadSubParcelaRepositoryImpl implements CadSubParcelaRepositoryQuery{
 
 	@PersistenceContext
 	private EntityManager manager;
 	
 	@Override
-	public Page<CadParcela> filtrar(CadParcelaFilter cadParcelaFilter, Pageable pageable) {
+	public Page<CadSubParcela> filtrar(CadSubParcelaFilter cadSubParcelaFilter, Pageable pageable) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
-		CriteriaQuery<CadParcela> criteria = builder .createQuery(CadParcela.class);
-		Root<CadParcela> root = criteria.from(CadParcela.class);
+		CriteriaQuery<CadSubParcela> criteria = builder .createQuery(CadSubParcela.class);
+		Root<CadSubParcela> root = criteria.from(CadSubParcela.class);
 		
-		Predicate[] predicates = criarRestricoes(cadParcelaFilter, builder, root);
+		Predicate[] predicates = criarRestricoes(cadSubParcelaFilter, builder, root);
 		criteria.where(predicates);
 		
-		TypedQuery<CadParcela> query = manager.createQuery(criteria);
+		TypedQuery<CadSubParcela> query = manager.createQuery(criteria);
 		adiconarRestricoesDePaginacao(query, pageable);
 		
-		return new PageImpl<>(query.getResultList(), pageable, total(cadParcelaFilter));
+		return new PageImpl<>(query.getResultList(), pageable, total(cadSubParcelaFilter));
 	}
 
-	private Long total(CadParcelaFilter cadParcelaFilter) {
+	private Long total(CadSubParcelaFilter cadSubParcelaFilter) {
 		CriteriaBuilder builder = manager.getCriteriaBuilder();
 		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
-		Root<CadParcela> root = criteria.from(CadParcela.class);
+		Root<CadSubParcela> root = criteria.from(CadSubParcela.class);
 		
-		Predicate[] predicates = criarRestricoes(cadParcelaFilter, builder, root);
+		Predicate[] predicates = criarRestricoes(cadSubParcelaFilter, builder, root);
 		criteria.where(predicates);
 		
 		criteria.select(builder.count(root));
@@ -64,16 +61,13 @@ public class CadParcelaRepositoryImpl implements CadParcelaRepositoryQuery{
 		
 	}
 
-	private Predicate[] criarRestricoes(CadParcelaFilter cadParcelaFilter, CriteriaBuilder builder,
-			Root<CadParcela> root) {
+	private Predicate[] criarRestricoes(CadSubParcelaFilter cadSubParcelaFilter, CriteriaBuilder builder,
+			Root<CadSubParcela> root) {
 		
 		List<Predicate> predicates = new ArrayList<>();
-		if(!StringUtils.isEmpty(cadParcelaFilter.getTxObservacoesParcela())) {
-			predicates.add(builder.like(
-					builder.lower(root.get(CadParcela_.txObservacoesParcela)), "%" + cadParcelaFilter.getTxObservacoesParcela().toLowerCase() + "%"));
-		}if (cadParcelaFilter.getCdEmpresa() != null) {
+		if (cadSubParcelaFilter.getCdEmpresa() != null) {
 			predicates.add(
-					builder.equal(root.get(CadParcela_.cdEmpresa), cadParcelaFilter.getCdEmpresa()));
+					builder.equal(root.get(CadSubParcela_.cdEmpresa), cadSubParcelaFilter.getCdEmpresa()));
 		}
 		
 		return predicates.toArray(new Predicate[predicates.size()]);

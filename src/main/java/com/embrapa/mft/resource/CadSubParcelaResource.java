@@ -21,45 +21,45 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.embrapa.mft.event.RecursoCriadoEvent;
-import com.embrapa.mft.model.CadParcela;
-import com.embrapa.mft.repository.CadParcelaRepository;
-import com.embrapa.mft.repository.filter.CadParcelaFilter;
-import com.embrapa.mft.service.CadParcelaService;
+import com.embrapa.mft.model.CadSubParcela;
+import com.embrapa.mft.repository.CadSubParcelaRepository;
+import com.embrapa.mft.repository.filter.CadSubParcelaFilter;
+import com.embrapa.mft.service.CadSubParcelaService;
 
 @RestController
-@RequestMapping("/cadparcela")
-public class CadParcelaResource {
+@RequestMapping("/cadsubparcela")
+public class CadSubParcelaResource {
+	
+	@Autowired
+	private CadSubParcelaRepository cadSubParcelaRepository;
 
 	@Autowired
-	private CadParcelaRepository cadParcelaRepository;
-
-	@Autowired
-	private CadParcelaService cadParcelaService;
+	private CadSubParcelaService cadSubParcelaService;
 		
 	@Autowired
 	private ApplicationEventPublisher publisher;
 	
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_EMPRESA') and #oauth2.hasScope('read')")
-	public Page<CadParcela> pesquisar(CadParcelaFilter cadParcelaFilter, Pageable pageable){
-		return cadParcelaRepository.filtrar(cadParcelaFilter, pageable);
+	public Page<CadSubParcela> pesquisar(CadSubParcelaFilter cadSubParcelaFilter, Pageable pageable){
+		return cadSubParcelaRepository.filtrar(cadSubParcelaFilter, pageable);
 	}
 	
 		
 	@PostMapping
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_EMPRESA') and #oauth2.hasScope('write')")
-	public ResponseEntity<CadParcela> criar(@RequestBody CadParcela cadParcela, HttpServletResponse response) {
-		CadParcela cadParcelaSalva = cadParcelaRepository.save(cadParcela);
-		publisher.publishEvent(new RecursoCriadoEvent(this, response, cadParcelaSalva.getCdParcela()));
+	public ResponseEntity<CadSubParcela> criar(@RequestBody CadSubParcela cadSubParcela, HttpServletResponse response) {
+		CadSubParcela cadSubParcelaSalva = cadSubParcelaRepository.save(cadSubParcela);
+		publisher.publishEvent(new RecursoCriadoEvent(this, response, cadSubParcelaSalva.getCdSubParcela()));
 				
-		return ResponseEntity.status(HttpStatus.CREATED).body(cadParcelaSalva);
+		return ResponseEntity.status(HttpStatus.CREATED).body(cadSubParcelaSalva);
 	}
 	
 	@GetMapping("/{cdEmpresa}")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_EMPRESA') and #oauth2.hasScope('read')")
-	public ResponseEntity <CadParcela>buscarPeloCodigo(@PathVariable Long cdEmpresa) {
-		CadParcela cadParcela = cadParcelaRepository.findOne(cdEmpresa);
-		 return cadParcela != null ? ResponseEntity.ok(cadParcela) : ResponseEntity.notFound().build();
+	public ResponseEntity <CadSubParcela>buscarPeloCodigo(@PathVariable Long cdEmpresa) {
+		CadSubParcela cadSubParcela = cadSubParcelaRepository.findOne(cdEmpresa);
+		 return cadSubParcela != null ? ResponseEntity.ok(cadSubParcela) : ResponseEntity.notFound().build();
 		
 	}
 	
@@ -67,15 +67,14 @@ public class CadParcelaResource {
 	@PreAuthorize("hasAuthority('ROLE_REMOVER_EMPRESA') and #oauth2.hasScope('write')")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void remover(@PathVariable Long cdEmpresa) {
-		cadParcelaRepository.delete(cdEmpresa);
+		cadSubParcelaRepository.delete(cdEmpresa);
 	}
 	
 	@PutMapping("/{cdEmpresa}")
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_EMPRESA') and #oauth2.hasScope('write')")
-	public ResponseEntity<CadParcela> atualizar(@PathVariable Long cdEmpresa, @Valid @RequestBody CadParcela cadParcela) {
-		CadParcela cadParcelaSalva = cadParcelaService.atualizar(cdEmpresa, cadParcela);
-		return ResponseEntity.ok(cadParcelaSalva);
+	public ResponseEntity<CadSubParcela> atualizar(@PathVariable Long cdEmpresa, @Valid @RequestBody CadSubParcela cadSubParcela) {
+		CadSubParcela cadSubParcelaSalva = cadSubParcelaService.atualizar(cdEmpresa, cadSubParcela);
+		return ResponseEntity.ok(cadSubParcelaSalva);
 	}
-	
-	
+
 }

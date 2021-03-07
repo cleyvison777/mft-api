@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 
 import com.embrapa.mft.model.CadMedicao;
 import com.embrapa.mft.model.CadMedicao_;
+import com.embrapa.mft.model.CadUsoEspecie_;
 import com.embrapa.mft.repository.filter.CadMedicaoFilter;
 
 public class CadMedicaoRepositoryImpl implements CadMedicaoRepositoryQuery{
@@ -69,7 +70,10 @@ public class CadMedicaoRepositoryImpl implements CadMedicaoRepositoryQuery{
         	  predicates.add(builder.like(
         			  root.get(CadMedicao_.txObservacao), "%" + cadMedicaoFilter.getTxObservacao().
         			  toLowerCase() + "%"));
-          }
+          }if (cadMedicaoFilter.getCdEmpresa() != null) {
+				predicates.add(
+						builder.equal(root.get(CadMedicao_.cdEmpresa), cadMedicaoFilter.getCdEmpresa()));
+			}
           
           return predicates.toArray(new Predicate[predicates.size()]);
 	}
