@@ -1037,7 +1037,7 @@ d08_cdempresa bigserial,
 d08_nmequacao varchar(50),
 d08_equacao varchar(3000),
 d08_txobservacaoequacao varchar(100),
-d08_imequacao oid
+d08_imequacao varchar(150)
 );
 
 create table d10_classe_tamanho_individuo ( 
@@ -1082,7 +1082,7 @@ r33_cdclassetamanho bigserial not null primary key,
 r33_cdempresa bigserial,
 r33_cdarea bigserial,
 r33_cdequacaovolumepadrao bigserial,
-r33_cdformatosubparcela bigserial,
+r33_cdformatosubparcela int,
 r33_dapminimocomfustemm int,
 r33_dapmaximocomfustemm int,
 r33_dapminimosemfustemm int,
@@ -1358,3 +1358,14 @@ ADD CONSTRAINT FK_d02_genero_d01_familia
 FOREIGN KEY (d30_cdempresa)
 REFERENCES d13_empresa(d13_cdempresa)
 ON DELETE CASCADE;
+
+ALTER TABLE r33_area_classe_tamanho
+ADD CONSTRAINT FK_r33_area_classe_tamanho_equacao
+FOREIGN KEY (r33_cdequacaovolumepadrao)
+REFERENCES d08_equacao(d08_cdequacao);
+
+
+ALTER TABLE r33_area_classe_tamanho
+ADD CONSTRAINT FK_r33_area_classe_tamanho_empresa
+FOREIGN KEY (r33_cdempresa)
+REFERENCES d13_empresa(d13_cdempresa);

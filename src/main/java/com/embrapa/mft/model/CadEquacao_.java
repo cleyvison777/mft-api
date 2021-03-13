@@ -13,6 +13,7 @@ public abstract class CadEquacao_ {
 	public static volatile SingularAttribute<CadEquacao, String> Equacao;
 	public static volatile SingularAttribute<CadEquacao, String> txObservacaoEquacao;
 	public static volatile SingularAttribute<CadEquacao, String> nmEquacao;
+	public static volatile SingularAttribute<CadEquacao, String> imgEquacao;
 
 }
 

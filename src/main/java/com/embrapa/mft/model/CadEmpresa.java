@@ -14,7 +14,7 @@ public class CadEmpresa {
 	@Id	
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "d13_cdempresa")
-	private long cdEmpresa;
+	private Long cdEmpresa;
 
 	@Column(name="d13_nmempresa")
 	private String nmEmpresa;
@@ -37,10 +37,10 @@ public class CadEmpresa {
 	@Column(name="d13_diretorioarquivos")
 	private String diretorioArquivos;
 
-	public long getCdEmpresa() {
+	public Long getCdEmpresa() {
 		return cdEmpresa;
 	}
-	public void setCdEmpresa(long cdEmpresa) {
+	public void setCdEmpresa(Long cdEmpresa) {
 		this.cdEmpresa = cdEmpresa;
 	}
 	public String getNmEmpresa() {

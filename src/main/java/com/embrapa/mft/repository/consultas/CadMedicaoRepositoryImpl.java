@@ -73,7 +73,7 @@ public class CadMedicaoRepositoryImpl implements CadMedicaoRepositoryQuery{
           }if (cadMedicaoFilter.getCdEmpresa() != null) {
 				predicates.add(
 						builder.equal(root.get(CadMedicao_.cdEmpresa), cadMedicaoFilter.getCdEmpresa()));
-			}
+          }
           
           return predicates.toArray(new Predicate[predicates.size()]);
 	}
