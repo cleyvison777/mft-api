@@ -15,6 +15,9 @@ public class CadParcela {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
+	
 	@Column(name = "d21_cdparcela")
 	private Long cdParcela;
 	

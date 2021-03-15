@@ -15,6 +15,8 @@ public class CadSubParcela {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;	
+	
 	@Column(name = "d29_cdsubparcela")
 	private Long cdSubParcela;
 	
@@ -23,7 +25,7 @@ public class CadSubParcela {
 	private CadEmpresa cdEmpresa;
 	
 	@ManyToOne
-	@JoinColumn(name= "d29_cdparcela")
+	@JoinColumn(name= "d29_idparcela")
 	private CadParcela cdParcela;
 		
 	@ManyToOne

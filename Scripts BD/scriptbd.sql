@@ -1129,7 +1129,8 @@ insert into d22_tipo_parcela(d22_cdempresa, d22_nmtipoparcela, d22_lgestudocresc
 
 
 CREATE TABLE d21_parcela(
-d21_cdparcela	bigserial NOT NULL PRIMARY KEY,
+id bigserial NOT NULL PRIMARY KEY,
+d21_cdparcela	bigserial,
 d21_cdempresa	bigserial,
 d21_cdarea	bigserial, 
 d21_cdtipoparcela	bigserial,	
@@ -1184,10 +1185,11 @@ ON DELETE CASCADE;
 
 
 create table r47_medicao_subparcela(
-r47_cdsubparcela bigserial not null primary key,
+id bigserial not null primary key,
+r47_cdsubparcela bigserial,
 r47_cdempresa bigserial,
 r47_cdarea bigserial,
-r47_cdparcela bigserial,
+r47_idparcela bigserial,
 r47_cdmedicao bigint,
 r47_cdclassefloresta bigserial,
 r47_cdclassetamanho bigserial,
@@ -1209,8 +1211,8 @@ ON DELETE CASCADE;
 
 ALTER TABLE r47_medicao_subparcela
 ADD CONSTRAINT FK_r47_cdparcela
-FOREIGN KEY (r47_cdparcela)
-REFERENCES d21_parcela(d21_cdparcela)        
+FOREIGN KEY (r47_idparcela)
+REFERENCES d21_parcela(id)        
 ON DELETE CASCADE; 
 
 
@@ -1222,10 +1224,11 @@ ON DELETE CASCADE;
 
 
 CREATE TABLE d29_subparcela(
-d29_cdsubparcela  bigserial NOT NULL PRIMARY key,
+id bigserial NOT NULL PRIMARY key,
+d29_cdsubparcela  bigserial,
 d29_cdempresa	bigserial,	
 d29_cdarea	  bigserial,
-d29_cdparcela	bigserial);
+d29_idparcela	bigserial);
 		
 
 
@@ -1237,8 +1240,8 @@ ON DELETE CASCADE;
 
 ALTER TABLE d29_subparcela
 ADD CONSTRAINT FK_d29_cdparcela
-FOREIGN KEY (d29_cdparcela)
-REFERENCES d21_parcela(d21_cdparcela)
+FOREIGN KEY (d29_idparcela)
+REFERENCES d21_parcela(id)
 ON DELETE CASCADE;
 
 ALTER TABLE d29_subparcela
@@ -1369,3 +1372,17 @@ ALTER TABLE r33_area_classe_tamanho
 ADD CONSTRAINT FK_r33_area_classe_tamanho_empresa
 FOREIGN KEY (r33_cdempresa)
 REFERENCES d13_empresa(d13_cdempresa);
+
+ALTER TABLE r33_area_classe_tamanho
+ADD CONSTRAINT FK_r33_area_classe_tamanho_area
+FOREIGN KEY (r33_cdarea)
+REFERENCES d20_area(d20_cdarea);
+
+create table geraparcelasubparcela(
+id bigserial not null primary key,
+cdempresa bigserial,
+cdarea bigserial,
+cdparcelainicio integer,
+nrparcelas integer,
+nrsubparcelas integer,
+cdtipoparcela bigserial);

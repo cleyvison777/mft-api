@@ -15,6 +15,7 @@ public abstract class CadParcela_ {
 	public static volatile SingularAttribute<CadParcela, Long> cdParcela;
 	public static volatile SingularAttribute<CadParcela, Integer> latitudePonto1Minuto;
 	public static volatile SingularAttribute<CadParcela, Integer> longitudePonto4Grau;
+	public static volatile SingularAttribute<CadParcela, Long> id;
 	public static volatile SingularAttribute<CadParcela, Integer> latitudePonto3Minuto;
 	public static volatile SingularAttribute<CadParcela, String> longitudePonto3Orientacao;
 	public static volatile SingularAttribute<CadParcela, CadAmf> cdArea;
