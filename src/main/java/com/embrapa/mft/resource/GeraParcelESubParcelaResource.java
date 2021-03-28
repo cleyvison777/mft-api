@@ -21,7 +21,7 @@ import com.embrapa.mft.event.RecursoCriadoEvent;
 import com.embrapa.mft.model.CadAmf;
 import com.embrapa.mft.model.MenuEmpresa;
 import com.embrapa.mft.model.fnc.GeraParcelESubParcela;
-import com.embrapa.mft.repository.GeraParcelESubParcelaRepository;
+import com.embrapa.mft.repository.procedimentos.GeraParcelESubParcelaRepository;
 
 @RestController
 @RequestMapping("/geraparcelaesubparcelas")
@@ -40,6 +40,7 @@ public class GeraParcelESubParcelaResource {
 	@PostMapping
 	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_EMPRESA') and #oauth2.hasScope('write')")
 	public ResponseEntity<GeraParcelESubParcela> criar(@RequestBody GeraParcelESubParcela geraParcelESubParcela, HttpServletResponse response) {
+		
 		GeraParcelESubParcela geraParcelESubParcelaSalva = geraParcelESubParcelaRepository.save(geraParcelESubParcela); 
 		publisher.publishEvent(new RecursoCriadoEvent(this, response, geraParcelESubParcelaSalva.getId()));
 		
@@ -47,7 +48,6 @@ public class GeraParcelESubParcelaResource {
 		int contasubpar;
 		int qtdexiste;
 		int qtdexisteSub;
-		Long maxCdParcela;
 		
 		contapar = geraParcelESubParcelaSalva.getCdParcelaInicio();
 		
@@ -57,22 +57,32 @@ public class GeraParcelESubParcelaResource {
 			qtdexiste = geraParcelESubParcelaRepository.qtdexiste(geraParcelESubParcelaSalva.getCdEmpresa(), 
 					geraParcelESubParcelaSalva.getCdArea(), contapar);	
 			
+			
 			if(qtdexiste == 0) {
+				System.out.println("Empresa: " + geraParcelESubParcelaSalva.getCdEmpresa());
+				System.out.println("Area: " + geraParcelESubParcelaSalva.getCdArea());
+				System.out.println("contapar: " + contapar);
+				System.out.println("Tipo Parcela: " + geraParcelESubParcelaSalva.getCdTipoParcela());
+				
 				geraParcelESubParcelaRepository.inserirParcela(geraParcelESubParcelaSalva.getCdEmpresa(), 
-						geraParcelESubParcelaSalva.getCdArea(), geraParcelESubParcelaSalva.getCdTipoParcela());
+						geraParcelESubParcelaSalva.getCdArea(), contapar ,geraParcelESubParcelaSalva.getCdTipoParcela());
 			}
 			
 			contasubpar = 1;
 			while(contasubpar <= geraParcelESubParcelaSalva.getNrSubParcelasPorParcelas()) {
 				
-				maxCdParcela = geraParcelESubParcelaRepository.maxCdParcela();
-				qtdexisteSub = geraParcelESubParcelaRepository.qtdexisteSub(geraParcelESubParcelaSalva.getCdEmpresa(), 
-						geraParcelESubParcelaSalva.getCdArea(), maxCdParcela);
+				qtdexisteSub = geraParcelESubParcelaRepository.qtdexisteSub(geraParcelESubParcelaSalva.getCdEmpresa(),geraParcelESubParcela.getCdArea(), contapar,contasubpar);
+				
+				if(qtdexisteSub == 0) {
+					geraParcelESubParcelaRepository.inserirSubParcela(geraParcelESubParcelaSalva.getCdEmpresa(),
+					geraParcelESubParcelaSalva.getCdArea(),contapar , contasubpar);					
+					
+				}
+				
+				contasubpar++;
 			}
 			contapar++;
-			System.out.println("Qtd existe: " + qtdexiste);
 		}
-		
 		
 		
 		

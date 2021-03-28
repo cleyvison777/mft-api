@@ -1228,7 +1228,7 @@ id bigserial NOT NULL PRIMARY key,
 d29_cdsubparcela  bigserial,
 d29_cdempresa	bigserial,	
 d29_cdarea	  bigserial,
-d29_idparcela	bigserial);
+d29_cdparcela	bigserial);
 		
 
 

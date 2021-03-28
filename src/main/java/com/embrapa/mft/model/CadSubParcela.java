@@ -25,7 +25,7 @@ public class CadSubParcela {
 	private CadEmpresa cdEmpresa;
 	
 	@ManyToOne
-	@JoinColumn(name= "d29_idparcela")
+	@JoinColumn(name= "d29_cdparcela")
 	private CadParcela cdParcela;
 		
 	@ManyToOne
